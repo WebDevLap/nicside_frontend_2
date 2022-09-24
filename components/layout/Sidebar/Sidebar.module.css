@@ -1,0 +1,69 @@
+.logo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.sidebar {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    margin-right: 40px;
+}
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+.sidebar li {
+    cursor: pointer;    
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+.sidebar li:hover {
+    background: #eee;
+}
+.active__link {
+    background: #503E8D;
+    color: #fff;
+}
+.active__link:hover {
+    cursor: default;
+    background: #503E8D !important;
+}
+.sidebar__footer {
+    background: rgb(226, 222, 228);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    color: #503E8D;
+}
+.sidebar__footer a{
+    cursor: pointer;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+.sidebar__footer a:hover {
+    color: #301E5D;
+}
+.sidebar__footer a:last-child {
+    margin-bottom: 0;
+}
+
+.contacts {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    /* justify-content: flex-end; */
+    /* margin-bottom: 10px; */
+}
+.contacts a {
+    display: block;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #503E8D;
+}
+.contacts a:hover {
+    opacity: 0.9;
+}

@@ -7,6 +7,8 @@ import { Icon } from '@iconify/react';
 import { CartContext } from '../../contexts/CartContext';
 import {useRouter} from 'next/router'
 import ReactTooltip from 'react-tooltip';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
 
 
 
@@ -15,6 +17,10 @@ const TableRow = ({item}) => {
     const [isShowed, setIsShowed] = useState(false)
     const [cart, setCart] = useContext(CartContext)
     const router = useRouter()
+
+    useEffect(() => {
+        ReactTooltip.rebuild();
+    });
 
     const images = [
         {
@@ -118,7 +124,7 @@ const TableRow = ({item}) => {
 
     function handleInput(e) {
         
-        if (e.target.value >= 0) {
+        if (e.target.value >= 0 && e.target.value <= 5000 ) {
             setAmount(+e.target.value)
 
             let product = cart.filter(product => product.id == item.id)[0]
@@ -151,26 +157,36 @@ const TableRow = ({item}) => {
 
     }
 
+    let selected = !(amount > 0)
 
   return (
-    <div className={styles.table_row}>
+    <div className={selected ? styles.table_row : styles.table_row__active}>
+        
         <div className={styles.image} onClick={() => {setIsShowed(true)}}>
             <img src={item.image}></img> 
         </div>
         {/* <div className={styles.code}>
             {item.code}
         </div> */}
-        <div className={styles.title} data-tip={item.description}>
+        <Tooltip
+            placement="bottom"
+            overlay={item.description}
+            overlayClassName="mytooltip"
+            arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+        >
+
+        <div id={'image' + item.id} className={styles.title} data-tip={item.description}>
             {item.title}
+            {/* <ReactTooltip border={1} borderColor="#ccc" className="mytooltip" type="light" effect="solid" place='bottom' multiline /> */}
         </div>
-        <ReactTooltip border={1} borderColor="#ccc" className="mytooltip" type="light" effect="solid" place='bottom' isCapture multiline />
+        </Tooltip>
         {/* <div className={styles.sku}>
             {item.description}  
         </div>   */}
         <div className={styles.amount}>
             <button disabled={(amount <= 0)} onClick={decrement}>-</button>
-            <input min={0} onInput={handleInput} value={amount} type={'number'}/>
-            <button onClick={increment}>+</button>
+            <input min={0} max={5000} onInput={handleInput} value={amount} type={'number'}/>
+            <button disabled={(amount >= 5000)} onClick={increment}>+</button>
         </div>
         <div className={styles.price}>
             {formatPrice(item.price)}

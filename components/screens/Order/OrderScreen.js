@@ -1,14 +1,17 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../../contexts/CartContext'
 import Header from '../../layout/Header/Header'
 import {useRouter} from 'next/router'
 import TableContainer from '../../Table/TableContainer'
 import styles from './OrderScreen.module.css'
 import formatPrice from '../../../utils/formatPrice'
+import { AddressSuggestions } from 'react-dadata';
+// import 'react-dadata/dist/react-dadata.css';
 
 const OrderScreen = () => {
 
     const [cart, setCart] = useContext(CartContext)
+    const [address, setAddress] = useState();
 
     const router = useRouter()
 
@@ -31,23 +34,37 @@ const OrderScreen = () => {
     }, [cart])
 
   return (
-    <div>
+    <div className={styles.order__screen}>
         <Header></Header>
         <div>
             <button onClick={handleBack} style={{padding: 10, marginBottom: 20}} className='primary__button'>Назад</button>
         </div>
         <form>
-            <div className={styles.input_group}>
-                <label>Имя</label>
-                <input></input>
+            <div>
+                <div className={styles.input_group}>
+                    <label>Имя</label>
+                    <input></input>
+                </div>
+                <div className={styles.input_group}>
+                    <label>Номер телефона</label>
+                    <input></input>
+                </div>
             </div>
-            <div className={styles.input_group}>
-                <label>Фамилия</label>
-                <input></input>
+            <div>
+                <div className={styles.input_group}>
+                    <label>Фамилия</label>
+                    <input></input>
+                </div>
+                <div className={styles.input_group}>
+                    <label>Адрес</label>
+                    <AddressSuggestions token="cccd906b9f52be8f1ee449484885f4327766041c" value={address} onChange={setAddress} />
+                </div>
             </div>
-            <div className={styles.input_group}>
-                <label>Номер телефона</label>
-                <input></input>
+            <div>
+                <div className={styles.input_group}>
+                    <label>Отчество</label>
+                    <input></input>
+                </div>
             </div>
         </form>
         <TableContainer data={cart}/>

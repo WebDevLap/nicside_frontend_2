@@ -1,10 +1,9 @@
-.logo {
-    width: 200px;
-    margin-right: 40px;
-}
+
 .header {
     padding: 20px 0;
     display: flex;
+    justify-content: space-between;
+    width: 100%;
     align-items: center;
 }
 .search {
@@ -38,9 +37,14 @@
         width: 30px;
         height: 30px;
 }
+.cart__info{
+    display: flex;
+    flex-direction: column;
+}
 .cart__wrapper {
     display: flex;
     align-items: center;
+    width: 100%;
     margin-left: 40px;
 }
 .cart__wrapper button {
@@ -69,7 +73,7 @@
     font-size: 28px;
 }
 .cart {
-    margin-right: 30px;
+    margin-left: 30px;
     height: 40px;
     width: 40px;
     position: relative;
@@ -92,4 +96,10 @@
     background: #503E8D;
     color: #fff;
     top: -10px;
+}
+.header_right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }

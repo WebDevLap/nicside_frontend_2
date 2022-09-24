@@ -1,20 +1,36 @@
 .table {
     margin-top: 20px;
+    font-size: 15px;
 }
 
 .table .table_row {
     display: flex;
     align-items: center;
+    padding: 4px 10px;
+    border-bottom: 1px solid #ccc;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.table .table_row__active {
+    border-radius: 6px;
+    background: rgb(212, 209, 226);
+    align-items: center;
+    display: flex;
+    padding: 4px 10px;
+    border-bottom: 1px solid #ccc;
+    align-items: center;
     margin-bottom: 10px;
 }
 .table_header {
+    padding: 10px 10px;
+    min-width: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     margin-bottom: 12px;
     font-weight: bold;
     color: #503E8D;
     background: rgb(226, 222, 228);
-    padding: 10px 0px;
     border-radius: 10px;
 }
 
@@ -28,22 +44,23 @@
 .table .image img:hover {
     background: #ddd;
 }
-.table .sku {
-    width: 200px;
-    margin-right: 20px;
-}
 
 .table .code {
     width: 60px;
     margin-right: 20px;
 }
-
+.table_header .amount{
+    display: block !important;
+}
 .table .title {
-    width: 600px;
+    width: 500px;
+    max-width: 500px;
     margin-right: 20px;
 }
 .table .amount {
+    text-align: center;
     width: 160px;
+    max-width: 160px;
     margin-right: 20px;
     display: flex;
 }
@@ -88,12 +105,12 @@
 
 .table .price {
     text-align: center;
-    width: 100px;
+    width: 90px;
     margin-right: 20px;
 }
 .table .summ {
-    text-align: right;
-    width: 100px;
+    text-align: center;
+    width: 60px;
     margin-right: 20px;
 }
 
@@ -111,6 +128,7 @@
     border-radius: 20px;
     padding: 20px;
     height: 88vh;
+    z-index: 999 !important
 }
 
 .close_button {
@@ -139,8 +157,22 @@
 }
 
 .table__category {
-    font-weight: bold;
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:6px 20px;
+    border-radius: 10px;
+    background: #503E8D;
+    /* font-weight: bold; */
+    color: #fff;
+    font-size:16px;
+    margin-bottom: 20px;
+}
+.table__category svg {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.table__category svg:hover {
+    color: #ccc;
 }

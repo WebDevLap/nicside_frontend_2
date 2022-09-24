@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CartContext } from '../contexts/CartContext'
 import '../styles/globals.css'
+import '../styles/dadata.css'
 
 function MyApp({ Component, pageProps }) {
 

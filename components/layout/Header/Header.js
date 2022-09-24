@@ -26,31 +26,36 @@ const Header = () => {
 
   return (
     <div className={styles.header}>
-       <div className={styles.logo}>
-            <img src='/VAPELOGO.svg'></img>
-        </div> 
         {
           router.pathname != '/order' && (
-            <>
-              <div className={styles.search}>
-                  <div className={styles.input__wrapper}>
-                      <Icon icon="eva:search-fill" />
-                      <input placeholder='Введите название или описание товара'></input>
-                  </div>
-                  <button className='primary__button'>Найти</button>
-              </div>
-              <div className={styles.cart__wrapper}>
-                <div className={styles.cart}>
-                  <Icon icon="akar-icons:cart" />
-                  {cart?.length > 0 && <div className={styles.cart__amount}>{cart?.length}</div>}
+            <div className={styles.header_right}>
+              <div>
+                <div className={styles.search}>
+                    <div className={styles.input__wrapper}>
+                        <Icon icon="eva:search-fill" />
+                        <input placeholder='Введите название или описание товара'></input>
+                    </div>
+                    <button className='primary__button'>Найти</button>
                 </div>
-                <div>
+              </div>
+              
+              <div>
+              <div className={styles.cart__wrapper}>
+                
+                <div className={styles.cart__info}>
                   {/* <h3>Итого</h3> */}
                   <h2>{formatPrice(summ)} бел. руб. </h2>
                   <button onClick={handleOrder} disabled={summ <= 0}>Оформить заказ</button>
                 </div>
+                
+                <div className={styles.cart}>
+                  
+                  <Icon icon="akar-icons:cart" />
+                  {cart?.length > 0 && <div className={styles.cart__amount}>{cart?.length}</div>}
+                </div>
               </div>
-            </>
+              </div>
+            </div>
           )
         }
     </div>
