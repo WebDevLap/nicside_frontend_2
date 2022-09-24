@@ -10,28 +10,137 @@
 .table_header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     font-weight: bold;
-    background: rgb(204, 145, 228);
+    color: #503E8D;
+    background: rgb(226, 222, 228);
     padding: 10px 0px;
     border-radius: 10px;
 }
 
 .table .image {
-    width: 30px;
+    width: 20px;
+    margin-right: 20px;
+}
+.table .image img {
+    cursor: pointer;
+}
+.table .image img:hover {
+    background: #ddd;
+}
+.table .sku {
+    width: 200px;
     margin-right: 20px;
 }
 
 .table .code {
-    width: 100px;
+    width: 60px;
     margin-right: 20px;
 }
 
 .table .title {
-    width: 700px;
+    width: 600px;
+    margin-right: 20px;
+}
+.table .amount {
+    width: 160px;
+    margin-right: 20px;
+    display: flex;
+}
+.table .amount input {
+    height: 30px;
+    font-size: 14px;
+    width: 60px;
+    padding: 4px 10px;
+}
+.table .amount button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 30px;
+    font-weight: bold;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 20px;
+    color: #503E8D;
+    border: 2px solid #503E8D;
+    height: 30px;
+    margin: 0 10px;
+}
+.table .amount button:hover {
+    background: #503E8D;
+    color: #fff;
+}
+.table .amount button:disabled {
+    border: 2px solid rgb(226, 222, 228);
+    color: rgb(226, 222, 228);
+    cursor:no-drop
+    /* background: #503E8D;
+    color: #fff; */
+}
+.table .amount button:disabled:hover {
+    color: rgb(226, 222, 228);
+    background: #fff;
+    /* background: #503E8D;
+    color: #fff; */
+}
+
+.table .price {
+    text-align: right;
+    width: 100px;
+    margin-right: 20px;
+}
+.table .summ {
+    text-align: right;
+    width: 100px;
     margin-right: 20px;
 }
 
 .table .table_header .image {
 
+}
+
+.image__gallery {
+    position: fixed;
+    background: rgba(255,255,255,0.97);
+    top: 5%;
+    left: 10%;
+    width: 80%;
+    box-shadow: 0 6px 20px #ccc;
+    border-radius: 20px;
+    padding: 20px;
+    height: 88vh;
+}
+
+.close_button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #503E8D;
+    border: 3px solid #503E8D;
+    border-radius: 50%;
+    position: fixed;
+    right: 5%;
+    top: 5%;
+    width: 60px;
+
+    height: 60px;
+}
+.close_button:hover {
+    background: #503E8D;
+    color: #fff;
+}
+.close_button svg {
+    width: 30px;
+    height: 30px;
+}
+
+.table__category {
+    font-weight: bold;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
 }

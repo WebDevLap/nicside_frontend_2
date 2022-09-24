@@ -19,10 +19,23 @@ a {
   box-sizing: border-box;
 }
 
+button {
+  user-select: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  padding: 0;
+  margin: 0;
+}
 
 img {
   width: 100%;
   height: auto;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 
@@ -55,4 +68,15 @@ input {
 }
 input:focus {
   border: 2px solid #503E8D;
+}
+
+.gallery__item {
+}
+.gallery__item > img {
+  height: 70vh;
+  
+}
+
+.mytooltip {
+  width: 600px;
 }

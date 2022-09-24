@@ -30,11 +30,66 @@
 
 
 .search .input__wrapper svg {
-    color: #a8f;
+    color: #503E8D;
     top: 50%;
     left: 0;
         position: absolute;
         transform: translate(50%, -50%);
         width: 30px;
         height: 30px;
+}
+.cart__wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
+}
+.cart__wrapper button {
+    margin-top: 4px;
+    background: #503E8D;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 14px;
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+}
+.cart__wrapper button:disabled {
+    background: #ccc;
+}
+.cart__wrapper button:disabled:hover {
+    opacity: 1;
+    cursor: default;
+}
+.cart__wrapper button:hover {
+    opacity: 0.9;
+}
+.cart__wrapper h2 {
+    font-size: 28px;
+}
+.cart {
+    margin-right: 30px;
+    height: 40px;
+    width: 40px;
+    position: relative;
+}
+.cart svg {
+    color: #503E8D;
+    height: 40px;
+    width: 40px;
+}
+.cart .cart__amount {
+    position: absolute;
+    right: -14px;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 30%;
+    justify-content: center;
+    background: #503E8D;
+    color: #fff;
+    top: -10px;
 }

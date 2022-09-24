@@ -1,0 +1,6 @@
+.input_group {
+    display: flex;
+    flex-direction: column;
+    max-width: 30%;
+    margin-bottom: 10px;
+}
