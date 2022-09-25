@@ -25,14 +25,18 @@ const TableContainer = ({data}) => {
             <div className={styles.amount}>
                 Количество
             </div>
-            <div className={styles.price}>
-                от 100 руб.
-            </div>
-            <div className={styles.price}>
-                от 200 руб.
-            </div>
-            <div className={styles.price}>
-                от 500 руб.
+            
+            <div className={styles.table__prices}>
+                <p>Цены</p>
+                <div className={styles.price}>
+                    от 100 руб.
+                </div>
+                <div className={styles.price}>
+                    от 200 руб.
+                </div>
+                <div className={styles.price}>
+                    от 500 руб.
+                </div>
             </div>
             <div className={styles.summ}>
                 Сумма

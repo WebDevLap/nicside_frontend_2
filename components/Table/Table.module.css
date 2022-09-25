@@ -3,6 +3,26 @@
     font-size: 15px;
 }
 
+@media screen and (max-width: 1440px) {
+    .table {
+        font-size: 14px !important;
+    }
+
+    
+    .table .amount input {
+        height: 28px !important;
+        font-size: 14px;
+        width: 50px;
+        padding: 4px 10px;
+    }
+    .table .amount button {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 18px !important;
+    }
+
+  }
+
 .table .table_row {
     display: flex;
     align-items: center;
@@ -53,7 +73,7 @@
     display: block !important;
 }
 .table .title {
-    width: 500px;
+    width: 48%;
     max-width: 500px;
     margin-right: 20px;
 }
@@ -105,12 +125,12 @@
 
 .table .price {
     text-align: center;
-    width: 90px;
+    width: 100px;
     margin-right: 20px;
 }
 .table .summ {
     text-align: center;
-    width: 60px;
+    width: 100px;
     margin-right: 20px;
 }
 
@@ -155,7 +175,13 @@
     width: 30px;
     height: 30px;
 }
-
+.table__prices {
+    display: flex;
+    width: 300px;
+}
+.table__prices span {
+    display: none;
+}
 .table__category {
     display: flex;
     align-items: center;
@@ -168,6 +194,121 @@
     font-size:16px;
     margin-bottom: 20px;
 }
+@media screen and (max-width: 1040px) {
+    .table_header .price{
+        display: none !important;
+    }
+    .table_header .table__prices {
+        display: block !important;
+    }
+    .table_header .table__prices p {
+        display: block;
+        text-align: center;
+    }
+    .title {
+        width: 60% !important;
+    }
+    .table__prices {
+        margin-right: 20px;
+        display: flex;
+        width: 220px;
+        flex-direction: column;
+    }
+    .table__prices .price {
+        width: 100%;
+    }
+    .table__prices p {
+        display: flex;
+    }
+    .table__prices span {
+        /* word-wrap: none !important; */
+        margin-right: 6px;
+        word-break: keep-all !important;
+        /* min-width: 120px; */
+        display: inline;
+    }
+}
+
+@media screen and (max-width: 920px) {
+
+    .table_header {
+        display: none;
+    }
+
+    .table_row {
+        flex-wrap: wrap;
+        flex-flow: wrap;
+    }
+    .table_row__active {
+        flex-wrap: wrap;
+        flex-flow: wrap;
+    }
+
+    .image {
+        margin-bottom: 10px;
+        order: 1;
+        min-width: 3%;
+        width: 3% !important
+    }
+
+    .title {
+        order: 2;
+        min-width: 50% !important;
+        margin-bottom: 10px;
+    }
+    .amount {
+        order: 4;
+        max-width: 300px !important;
+    }
+    .amount button:first-child {
+        margin-left: 0;
+    }
+    .summ {
+        order: 5;
+        margin-left: auto;
+        margin-right: 0 !important;
+        text-align: right !important;
+    }
+    .summ span {
+        display: inline;
+        margin-right: 10px;
+    }
+    .table__prices {
+        margin-right: 0 !important;
+        min-width: calc( 37% - 40px)!important;
+        width: calc( 37% - 40px)!important;
+        text-align: right !important;
+        margin-bottom: 10px;
+        order: 3;
+    }
+    .table__prices p {
+        justify-content: flex-end;
+    }
+
+}
+
+@media screen and (max-width: 570px) {
+    .title {
+        width: 80% !important;
+    }
+    .table__prices {
+        width: 150px !important;
+        margin-right: 40px !important;
+        /* flex-direction: row !important; */
+    }
+    .amount {
+        width: 160px !important;
+        margin-right: 0 !important;
+    }
+    .table__prices .price {
+        margin-right: 0 !important;
+    }
+    .table__prices p {
+        justify-content: center;
+    }
+}
+
+
 .table__category svg {
     width: 30px;
     height: 30px;

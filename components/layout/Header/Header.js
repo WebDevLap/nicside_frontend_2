@@ -26,8 +26,13 @@ const Header = () => {
 
   return (
     <div className={styles.header}>
-        {
-          router.pathname != '/order' && (
+        <div className={styles.subheader}>
+            <a >Доставка и оплата</a>
+            <div className={styles.contacts}>
+                  <Icon icon="logos:telegram" /> <a href="https://t.me/tar1karm">Чат Telegram</a>
+            </div>
+        </div>
+        {router.pathname != '/order' && (
             <div className={styles.header_right}>
               <div>
                 <div className={styles.search}>
@@ -37,9 +42,22 @@ const Header = () => {
                     </div>
                     <button className='primary__button'>Найти</button>
                 </div>
+                <div className={styles.category__select}>
+                    <select>
+                      <option>Все</option>
+                      <option>Железо</option>
+                      <option>Жидкость</option>
+                      <option>Расходники</option>
+                      <option>Напитки</option>
+                    </select>
+                </div>
               </div>
               
               <div>
+                
+              <div className={styles.logo}>
+                    <img src='/VAPELOGO.svg'></img>
+              </div> 
               <div className={styles.cart__wrapper}>
                 
                 <div className={styles.cart__info}>

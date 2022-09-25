@@ -8,9 +8,16 @@
     margin-top: 20px;
     display: flex;
     flex-direction: column;
+    width: 220px;
     min-width: 200px;
     margin-right: 40px;
 }
+@media screen and (max-width: 1320px) {
+    .sidebar {
+        display: none;
+    }
+
+  }
 .sidebar h2 {
     margin-bottom: 20px;
 }

@@ -188,17 +188,20 @@ const TableRow = ({item}) => {
             <input min={0} max={5000} onInput={handleInput} value={amount} type={'number'}/>
             <button disabled={(amount >= 5000)} onClick={increment}>+</button>
         </div>
-        <div className={styles.price}>
-            {formatPrice(item.price)}
-        </div>
-        <div className={styles.price}>
-            {formatPrice(item.price)}
-        </div>
-        <div className={styles.price}>
-            {formatPrice(item.price)}
+        <div className={styles.table__prices}>
+            
+            <div className={styles.price}>
+            <p><span>от 100 руб.</span>{formatPrice(item.price)}</p>
+            </div>
+            <div className={styles.price}>
+                <p><span>от 200 руб.</span>{formatPrice(item.price)}</p>
+            </div>
+            <div className={styles.price}>
+                <p><span>от 500 руб.</span>{formatPrice(item.price)}</p>
+            </div>
         </div>
         <div className={styles.summ}>
-            {formatPrice(item.price * amount)}
+            <p><span>Сумма</span>{formatPrice(item.price * amount)}</p>
         </div>
         <div style={{display: isShowed ? 'block' : 'none'}} className={styles.image__gallery}>
             <ImageGallery  
