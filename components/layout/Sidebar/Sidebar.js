@@ -42,7 +42,7 @@ const Sidebar = () => {
         <ul>
             <a onClick={() => {setCategory('')}}><li className={category == '' && styles.active__link}>Все</li></a>
             <a onClick={() => {setCategory('Железо')}}><li className={category == 'Железо' && styles.active__link}>Железо</li></a>
-            <a onClick={() => {setCategory('Жидкости')}}><li className={category == 'Жидкости' && styles.active__link}>Жидкости</li></a>
+            <a onClick={() => {setCategory('Жидкость')}}><li className={category == 'Жидкость' && styles.active__link}>Жидкость</li></a>
             <a onClick={() => {setCategory('Расходники')}}><li className={category == 'Расходники' && styles.active__link}>Расходники</li></a>
             <a onClick={() => {setCategory('Напитки')}}><li className={category == 'Напитки' && styles.active__link}>Напитки</li></a>
         </ul>

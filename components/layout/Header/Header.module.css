@@ -8,7 +8,7 @@
 }
 .subheader {
     padding: 10px;
-    display: flex;
+    display: none;
     justify-content: flex-end;
     width: 100%;
 }
@@ -51,6 +51,10 @@
 }
 
 @media screen and (max-width: 1320px) {
+    
+    .subheader {
+        display: flex;
+    }
     
     .category__select {
         display: block !important;

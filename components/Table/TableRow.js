@@ -12,7 +12,7 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 
 
 
-const TableRow = ({item}) => {
+const TableRow = ({item, hidden}) => {
     const [amount, setAmount] = useState(0)
     const [isShowed, setIsShowed] = useState(false)
     const [images, setImages] = useState(false)
@@ -178,7 +178,7 @@ const TableRow = ({item}) => {
     let selected = !(amount > 0)
 
   return (
-    <div className={selected ? styles.table_row : styles.table_row__active}>
+    <div style={hidden?.includes(item?.id) ? {display: 'none'}: {}} className={selected ? styles.table_row : styles.table_row__active}>
         
         <div className={styles.image} onClick={() => {setIsShowed(true)}}>
             <img src={item.meta}></img> 

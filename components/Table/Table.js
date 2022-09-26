@@ -16,6 +16,10 @@ const Table = ({data}) => {
 
       products = products?.rows?.map(item => item)
 
+      products = products.sort(function (a, b) {
+          return (a?.pathName).localeCompare(b?.pathName);
+      })
+
       setProducts(products)
 
   }

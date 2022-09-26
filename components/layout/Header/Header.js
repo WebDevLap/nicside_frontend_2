@@ -25,6 +25,11 @@ const Header = () => {
 
       products = products?.rows?.map(item => item)
 
+      
+      products = products.sort(function (a, b) {
+          return (a?.pathName).localeCompare(b?.pathName);
+      })
+
       setProducts(products)
 
   }
@@ -74,7 +79,7 @@ const Header = () => {
                     <select value={category} onChange={handleSelect}>
                       <option value="">Все</option>
                       <option value="Железо" >Железо</option>
-                      <option value="Жидкости">Жидкости</option>
+                      <option value="Жидкость">Жидкость</option>
                       <option value="Расходники">Расходники</option>
                       <option value="Напитки">Напитки</option>
                     </select>
