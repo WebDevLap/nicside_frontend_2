@@ -15,6 +15,7 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 const TableRow = ({item}) => {
     const [amount, setAmount] = useState(0)
     const [isShowed, setIsShowed] = useState(false)
+    const [images, setImages] = useState(false)
     const [cart, setCart] = useContext(CartContext)
     const router = useRouter()
 
@@ -22,7 +23,7 @@ const TableRow = ({item}) => {
         ReactTooltip.rebuild();
     });
 
-    const images = [
+    const test_images = [
         {
           original: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
           thumbnail: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
@@ -40,14 +41,31 @@ const TableRow = ({item}) => {
         },
       ];
 
-    useEffect(() => {
+      
+//   const fetchImages = async () => {
+//     let images = await fetch('http://localhost:8080/' + item?.images?.meta?.href?.slice(8), {
+//         headers: {
+//           'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
+//         }
+//       })
+//       images = await images.json()
 
-        if (item?.amount) {
-            setAmount(item?.amount)
-        }
+//       console.log(images)
+
+//     //   images = images?.rows?.map(item => item)
+
+//       setImages(images)
+
+//   }
+
+//     useEffect(() => {
+//         fetchImages()
+//         if (item?.amount) {
+//             setAmount(item?.amount)
+//         }
 
 
-    }, [item])
+//     }, [item])
 
 
     function increment() {
@@ -163,7 +181,7 @@ const TableRow = ({item}) => {
     <div className={selected ? styles.table_row : styles.table_row__active}>
         
         <div className={styles.image} onClick={() => {setIsShowed(true)}}>
-            <img src={item.image}></img> 
+            <img src={item.meta}></img> 
         </div>
         {/* <div className={styles.code}>
             {item.code}
@@ -176,7 +194,7 @@ const TableRow = ({item}) => {
         >
 
         <div id={'image' + item.id} className={styles.title} data-tip={item.description}>
-            {item.title}
+            {item.name}
             {/* <ReactTooltip border={1} borderColor="#ccc" className="mytooltip" type="light" effect="solid" place='bottom' multiline /> */}
         </div>
         </Tooltip>
@@ -191,23 +209,23 @@ const TableRow = ({item}) => {
         <div className={styles.table__prices}>
             
             <div className={styles.price}>
-            <p><span>от 100 руб.</span>{formatPrice(item.price)}</p>
+            <p><span>от 100 руб.</span>{formatPrice(item.salePrices?.[0]?.value)}</p>
             </div>
             <div className={styles.price}>
-                <p><span>от 200 руб.</span>{formatPrice(item.price)}</p>
+                <p><span>от 200 руб.</span>{formatPrice(item.salePrices?.[1]?.value)}</p>
             </div>
             <div className={styles.price}>
-                <p><span>от 500 руб.</span>{formatPrice(item.price)}</p>
+                <p><span>от 500 руб.</span>{formatPrice(item.salePrices?.[2]?.value)}</p>
             </div>
         </div>
         <div className={styles.summ}>
-            <p><span>Сумма</span>{formatPrice(item.price * amount)}</p>
+            <p><span>Сумма</span>{formatPrice(item.salePrices?.[0]?.value * amount)}</p>
         </div>
         <div style={{display: isShowed ? 'block' : 'none'}} className={styles.image__gallery}>
             <ImageGallery  
                 showFullscreenButton={false} 
                 showPlayButton={false} 
-                items={images} 
+                items={test_images} 
                 renderLeftNav={(onClick, disabled) => <button
                     type="button"
                     className="image-gallery-icon image-gallery-left-nav"

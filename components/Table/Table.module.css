@@ -7,6 +7,9 @@
     .table {
         font-size: 14px !important;
     }
+    .table .title {
+        min-width: 0 !important
+    }
 
     
     .table .amount input {
@@ -23,6 +26,9 @@
 
   }
 
+  .table .amount input {
+    text-align: center;
+  }
 .table .table_row {
     display: flex;
     align-items: center;
@@ -30,6 +36,12 @@
     border-bottom: 1px solid #ccc;
     align-items: center;
     margin-bottom: 10px;
+}
+.table_header p {
+    display: none;
+}
+.summ span {
+    display: none;
 }
 .table .table_row__active {
     border-radius: 6px;
@@ -74,7 +86,7 @@
 }
 .table .title {
     width: 48%;
-    max-width: 500px;
+    min-width: 500px;
     margin-right: 20px;
 }
 .table .amount {

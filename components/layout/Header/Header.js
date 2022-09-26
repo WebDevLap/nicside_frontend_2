@@ -1,13 +1,37 @@
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../../contexts/CartContext'
+import { CategoryContext } from '../../../contexts/CategoryContext'
+import { ProductContext } from '../../../contexts/ProductsContext'
 import formatPrice from '../../../utils/formatPrice'
 import styles from './Header.module.css'
 
 const Header = () => {
 
   const [cart, setCart] = useContext(CartContext)
+  const [products, setProducts] = useContext(ProductContext)
+
+
+  const [category, setCategory] = useContext(CategoryContext)
+
+  const fetchProducts = async () => {
+    let products = await fetch(`http://localhost:8080/online.moysklad.ru/api/remap/1.2/entity/product?filter=${category && 'pathName=' + category}`, {
+        headers: {
+          'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
+        }
+      })
+      products = await products.json()
+
+      products = products?.rows?.map(item => item)
+
+      setProducts(products)
+
+  }
+  
+  useEffect(() => {
+    fetchProducts()
+  }, [category])
 
   const router = useRouter()
 
@@ -22,6 +46,10 @@ const Header = () => {
     if (summ > 0) {
       router.push('/order')
     }
+  }
+
+  function handleSelect(e) {
+    setCategory(e.target.value)
   }
 
   return (
@@ -43,12 +71,12 @@ const Header = () => {
                     <button className='primary__button'>Найти</button>
                 </div>
                 <div className={styles.category__select}>
-                    <select>
-                      <option>Все</option>
-                      <option>Железо</option>
-                      <option>Жидкость</option>
-                      <option>Расходники</option>
-                      <option>Напитки</option>
+                    <select value={category} onChange={handleSelect}>
+                      <option value="">Все</option>
+                      <option value="Железо" >Железо</option>
+                      <option value="Жидкости">Жидкости</option>
+                      <option value="Расходники">Расходники</option>
+                      <option value="Напитки">Напитки</option>
                     </select>
                 </div>
               </div>

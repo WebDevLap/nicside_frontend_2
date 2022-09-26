@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react'
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './Sidebar.module.css'
 import Modal from 'react-modal';
+import { CategoryContext } from '../../../contexts/CategoryContext';
 
 const customStyles = {
     content: {
@@ -18,6 +19,9 @@ const customStyles = {
 const Sidebar = () => {
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
+
+    
+    const [category, setCategory] = useContext(CategoryContext)
 
 
     function openModal() {
@@ -36,11 +40,11 @@ const Sidebar = () => {
         </div> 
         <h2>Категории</h2>
         <ul>
-            <a><li className={styles.active__link}>Все</li></a>
-            <a><li>Железо</li></a>
-            <a><li>Жидкость</li></a>
-            <a><li>Расходники</li></a>
-            <a><li>Напитки</li></a>
+            <a onClick={() => {setCategory('')}}><li className={category == '' && styles.active__link}>Все</li></a>
+            <a onClick={() => {setCategory('Железо')}}><li className={category == 'Железо' && styles.active__link}>Железо</li></a>
+            <a onClick={() => {setCategory('Жидкости')}}><li className={category == 'Жидкости' && styles.active__link}>Жидкости</li></a>
+            <a onClick={() => {setCategory('Расходники')}}><li className={category == 'Расходники' && styles.active__link}>Расходники</li></a>
+            <a onClick={() => {setCategory('Напитки')}}><li className={category == 'Напитки' && styles.active__link}>Напитки</li></a>
         </ul>
         <div className={styles.sidebar__footer}>
             <Modal

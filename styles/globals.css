@@ -32,9 +32,12 @@ img {
   width: 100%;
   height: auto;
 }
+input[type='number'] {
+  -moz-appearance: textfield;
+}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
+    -webkit-appearance: none !important;
     margin: 0;
 }
 
@@ -51,7 +54,7 @@ ul, li {
 
 @media screen and (max-width: 1440px) {
   .container {
-    width: 90%;
+    width: 94%;
     margin: 0 3%;
   }
 }
