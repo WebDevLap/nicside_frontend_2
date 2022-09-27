@@ -16,7 +16,15 @@ const Header = () => {
   const [category, setCategory] = useContext(CategoryContext)
 
   const fetchProducts = async () => {
-    let products = await fetch(`http://localhost:8080/online.moysklad.ru/api/remap/1.2/entity/product?filter=${category && 'pathName=' + category}`, {
+
+    
+    setProducts({
+      products: [],
+      isLoading: true
+    })
+
+
+    let products = await fetch(`http://localhost:8080/online.moysklad.ru/api/remap/1.2/entity/assortment?expand=product,product.images,images&filter=stockMode=positiveOnly&limit=100;${category && 'pathName=' + category}`, {
         headers: {
           'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
         }
@@ -26,11 +34,14 @@ const Header = () => {
       products = products?.rows?.map(item => item)
 
       
-      products = products.sort(function (a, b) {
-          return (a?.pathName).localeCompare(b?.pathName);
+      products = products?.sort(function (a, b) {
+          return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
       })
 
-      setProducts(products)
+      setProducts({
+        products,
+        isLoading: false
+      })
 
   }
   

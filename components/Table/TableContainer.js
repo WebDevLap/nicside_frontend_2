@@ -52,14 +52,14 @@ const TableContainer = ({data}) => {
 
                 if (item?.pathName != data?.[index - 1]?.pathName) {
                     return (
-                        <>
-                        <TableCategory setHidden={setHidden} item={item}/>
-                        <TableRow hidden={hidden} item={item}/>
+                        < >
+                        <TableCategory key={item?.id} setHidden={setHidden} item={item}/>
+                        <TableRow key={item?.id} hidden={hidden} item={item}/>
                         </>
                     )
                 } else {
                     return (
-                        <TableRow hidden={hidden} item={item}/>
+                        <TableRow key={item?.id} hidden={hidden} item={item}/>
                     )
                 }
 

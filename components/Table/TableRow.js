@@ -23,7 +23,7 @@ const TableRow = ({item, hidden}) => {
         ReactTooltip.rebuild();
     });
 
-    const test_images = [
+    let test_images = [
         {
           original: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
           thumbnail: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
@@ -40,6 +40,14 @@ const TableRow = ({item, hidden}) => {
           originalClass: 'gallery__item'
         },
       ];
+
+    test_images = item?.images?.rows?.map(img => (
+        {
+            original: img?.meta?.downloadHref,
+            thumbnail: img?.meta?.downloadHref,
+            originalClass: 'gallery__item'
+        }
+    ))
 
       
 //   const fetchImages = async () => {
@@ -98,6 +106,7 @@ const TableRow = ({item, hidden}) => {
         }
 
     }
+
     function decrement() {
 
         let product = cart.filter(product => product.id == item.id)[0]
@@ -181,7 +190,8 @@ const TableRow = ({item, hidden}) => {
     <div style={hidden?.includes(item?.id) ? {display: 'none'}: {}} className={selected ? styles.table_row : styles.table_row__active}>
         
         <div className={styles.image} onClick={() => {setIsShowed(true)}}>
-            <img src={item.meta}></img> 
+            {console.log(item?.images?.rows?.[0]?.tiny?.href)}
+            <img src={item?.images?.rows?.[0]?.tiny?.href}></img> 
         </div>
         {/* <div className={styles.code}>
             {item.code}
