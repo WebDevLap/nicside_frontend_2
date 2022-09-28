@@ -72,8 +72,21 @@ ul, li {
 .primary__button:hover {
   background: #402E7D;
 }
+.primary__button:disabled {
+  cursor: default;
+  background: #ccc !important;
+}
 
 input {
+  padding: 14px 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+}
+textarea {
+  resize: none;
   padding: 14px 16px;
   border: 2px solid #ccc;
   border-radius: 8px;
@@ -92,6 +105,9 @@ select {
   background: url("data:image/svg+xml;utf8,<svg fill='grey' height='32' viewBox='0 0 24 24' width='32' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") no-repeat right #fff;
     -webkit-appearance: none;
     background-position-x: calc(100% - 10px);
+}
+textarea:focus {
+  border: 2px solid #503E8D;
 }
 input:focus {
   border: 2px solid #503E8D;

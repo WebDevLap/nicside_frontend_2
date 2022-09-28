@@ -23,6 +23,29 @@ const TableRow = ({item, hidden}) => {
         ReactTooltip.rebuild();
     });
 
+    let default_summ = cart.reduce((prev, now) => {
+
+        let s = now.salePrices?.[0]?.value * now.amount
+
+        return prev + s
+    }, 0)
+
+    let summ = 0
+    let priceIndex = 0
+    
+    
+    if (default_summ < 200) {
+        priceIndex = 0
+        summ = item?.salePrices?.[0]?.value * amount
+    } else if (default_summ < 500) {
+        priceIndex = 1
+        summ = item?.salePrices?.[1]?.value * amount
+    } else if (default_summ >= 500) {
+        priceIndex = 2
+        summ = item?.salePrices?.[2]?.value * amount
+    }
+
+
     let test_images = [
         {
           original: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
@@ -48,6 +71,15 @@ const TableRow = ({item, hidden}) => {
             originalClass: 'gallery__item'
         }
     ))
+
+    useEffect(() => {
+
+        let cartItem = cart.find(cartItem => cartItem?.id == item?.id)
+
+        if (cartItem) {
+            setAmount(cartItem?.amount)
+        }
+    }, [cart])
 
       
 //   const fetchImages = async () => {
@@ -190,7 +222,7 @@ const TableRow = ({item, hidden}) => {
     <div style={hidden?.includes(item?.id) ? {display: 'none'}: {}} className={selected ? styles.table_row : styles.table_row__active}>
         
         <div className={styles.image} onClick={() => {setIsShowed(true)}}>
-            {console.log(item?.images?.rows?.[0]?.tiny?.href)}
+            {/* {console.log(item?.images?.rows?.[0]?.tiny?.href)} */}
             <img src={item?.images?.rows?.[0]?.tiny?.href}></img> 
         </div>
         {/* <div className={styles.code}>
@@ -218,18 +250,18 @@ const TableRow = ({item, hidden}) => {
         </div>
         <div className={styles.table__prices}>
             
-            <div className={styles.price}>
+            <div className={styles.price} style={priceIndex == 0 ? {fontWeight: 'bold'} : {}}>
             <p><span>от 100 руб.</span>{formatPrice(item.salePrices?.[0]?.value)}</p>
             </div>
-            <div className={styles.price}>
+            <div className={styles.price} style={priceIndex == 1 ? {fontWeight: 'bold'} : {}}>
                 <p><span>от 200 руб.</span>{formatPrice(item.salePrices?.[1]?.value)}</p>
             </div>
-            <div className={styles.price}>
+            <div className={styles.price} style={priceIndex == 2 ? {fontWeight: 'bold'} : {}}>
                 <p><span>от 500 руб.</span>{formatPrice(item.salePrices?.[2]?.value)}</p>
             </div>
         </div>
-        <div className={styles.summ}>
-            <p><span>Сумма</span>{formatPrice(item.salePrices?.[0]?.value * amount)}</p>
+        <div className={styles.summ} style={{fontWeight: 'bold'}}>
+            <p><span>Сумма</span>{formatPrice(summ)}</p>
         </div>
         <div style={{display: isShowed ? 'block' : 'none'}} className={styles.image__gallery}>
             <ImageGallery  

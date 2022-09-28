@@ -33,6 +33,11 @@ const Sidebar = () => {
       }
 
 
+    function handleCategory(value) {
+      setCategory(prev => ({...prev, category: value}))
+    }
+
+
   return (
     <div className={styles.sidebar}>
        <div className={styles.logo}>
@@ -40,11 +45,11 @@ const Sidebar = () => {
         </div> 
         <h2>Категории</h2>
         <ul>
-            <a onClick={() => {setCategory('')}}><li className={category == '' && styles.active__link}>Все</li></a>
-            <a onClick={() => {setCategory('Железо')}}><li className={category == 'Железо' && styles.active__link}>Железо</li></a>
-            <a onClick={() => {setCategory('Жидкость')}}><li className={category == 'Жидкость' && styles.active__link}>Жидкость</li></a>
-            <a onClick={() => {setCategory('Расходники')}}><li className={category == 'Расходники' && styles.active__link}>Расходники</li></a>
-            <a onClick={() => {setCategory('Напитки')}}><li className={category == 'Напитки' && styles.active__link}>Напитки</li></a>
+            <a onClick={() => {handleCategory('')}}><li className={category?.category == '' && styles.active__link}>Все</li></a>
+            <a onClick={() => {handleCategory('Железо')}}><li className={category?.category == 'Железо' && styles.active__link}>Железо</li></a>
+            <a onClick={() => {handleCategory('Жидкость')}}><li className={category?.category == 'Жидкость' && styles.active__link}>Жидкость</li></a>
+            <a onClick={() => {handleCategory('Расходники')}}><li className={category?.category == 'Расходники' && styles.active__link}>Расходники</li></a>
+            <a onClick={() => {handleCategory('Напитки')}}><li className={category?.category == 'Напитки' && styles.active__link}>Напитки</li></a>
         </ul>
         <div className={styles.sidebar__footer}>
             <Modal

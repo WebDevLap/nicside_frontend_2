@@ -13,7 +13,10 @@ function MyApp({ Component, pageProps }) {
     products: [],
     isLoading: true
   });
-  const [categoryContext, setCategoryContext] = useState('');
+  const [categoryContext, setCategoryContext] = useState({
+    category: '',
+    search: ''
+  });
 
 
 

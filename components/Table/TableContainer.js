@@ -50,11 +50,13 @@ const TableContainer = ({data}) => {
         {
             data?.map((item, index) => {
 
-                if (item?.pathName != data?.[index - 1]?.pathName) {
+                console.log(item, item?.pathName,data?.[index - 1]?.pathName)
+
+                if (item?.product?.pathName != data?.[index - 1]?.product?.pathName) {
                     return (
                         < >
-                        <TableCategory key={item?.id} setHidden={setHidden} item={item}/>
-                        <TableRow key={item?.id} hidden={hidden} item={item}/>
+                        <TableCategory key={item?.id + 'cat'} setHidden={setHidden} item={item}/>
+                        <TableRow key={item?.id + 'row'} hidden={hidden} item={item}/>
                         </>
                     )
                 } else {

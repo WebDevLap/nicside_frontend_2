@@ -14,7 +14,11 @@ const Table = ({data}) => {
         {/* <div>Всего объектов: {data?.count}</div> */}
         {/* <div>Оплата производится белорусскими рублями</div> */}
         <ReactLoader loaded={!products?.isLoading}>
-          <TableContainer data={products?.products}></TableContainer>
+          {products?.products?.length == 0 ? (
+            <h2>Товаров по вашему запросу не обнаружено</h2>
+          ) : (
+            <TableContainer data={products?.products}></TableContainer>
+          )}
         </ReactLoader>
     </div>
   )

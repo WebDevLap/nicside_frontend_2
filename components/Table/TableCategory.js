@@ -32,9 +32,11 @@ const TableCategory = ({item, setHidden}) => {
 
   }
 
+  console.log(item)
+
   return (
     <div className={styles.table__category}>
-      <p>{item?.pathName}</p>
+      <p>{item?.product?.pathName || item?.pathName}</p>
       {isOpen ? (
         <Icon onClick={handleShow} icon="bx:plus"  />
       ) : (

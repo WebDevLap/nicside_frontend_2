@@ -11,7 +11,11 @@ import { AddressSuggestions } from 'react-dadata';
 const OrderScreen = () => {
 
     const [cart, setCart] = useContext(CartContext)
+    
+    const [name, setName] = useState();
+    const [phone, setPhone] = useState();
     const [address, setAddress] = useState();
+    const [comment, setComment] = useState();
 
     const router = useRouter()
 
@@ -19,12 +23,39 @@ const OrderScreen = () => {
         router.push('/')
     }
 
-    let summ = cart.reduce((prev, now) => {
+    let default_summ = cart.reduce((prev, now) => {
 
-        let s = now.price * now.amount
+        let s = now.salePrices?.[0]?.value * now.amount
     
         return prev + s
-    }, 0)
+      }, 0)
+    
+      let summ = 0
+    
+    
+      if (default_summ < 200) {
+        summ = cart.reduce((prev, now) => {
+    
+          let s = now.salePrices?.[0]?.value * now.amount
+      
+          return prev + s
+        }, 0)
+      } else if (default_summ < 500) {
+        summ = cart.reduce((prev, now) => {
+    
+          let s = now.salePrices?.[1]?.value * now.amount
+      
+          return prev + s
+        }, 0)
+      } else if (default_summ >= 500) {
+        summ = cart.reduce((prev, now) => {
+    
+          let s = now.salePrices?.[2]?.value * now.amount
+      
+          return prev + s
+        }, 0)
+      }
+    
 
     useEffect(() => {
 
@@ -42,19 +73,19 @@ const OrderScreen = () => {
         <form>
             <div>
                 <div className={styles.input_group}>
-                    <label>Имя</label>
-                    <input></input>
+                    <label>Имя / Название организации</label>
+                    <input onChange={(e) => {setName(e.target.value)}}></input>
                 </div>
                 <div className={styles.input_group}>
                     <label>Номер телефона</label>
-                    <input></input>
+                    <input onChange={(e) => {setPhone(e.target.value)}}></input>
                 </div>
             </div>
             <div>
-                <div className={styles.input_group}>
+                {/* <div className={styles.input_group}>
                     <label>Фамилия</label>
                     <input></input>
-                </div>
+                </div> */}
                 <div className={styles.input_group}>
                     <label>Адрес</label>
                     <AddressSuggestions token="cccd906b9f52be8f1ee449484885f4327766041c" value={address} onChange={setAddress} />
@@ -62,8 +93,8 @@ const OrderScreen = () => {
             </div>
             <div>
                 <div className={styles.input_group}>
-                    <label>Отчество</label>
-                    <input></input>
+                    <label>Комментарий</label>
+                    <textarea onChange={(e) => {setComment(e.target.value)}}></textarea>
                 </div>
             </div>
         </form>
@@ -72,7 +103,7 @@ const OrderScreen = () => {
             Итого: <span style={{margin: '0 10px', fontSize: 24, fontWeight: 'bold'}}>{formatPrice(summ)}</span> бел. руб.
         </div>
         <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 20}}>
-            <button style={{padding: 10, marginBottom: 20}} className='primary__button'>Подтвердить заказ</button>
+            <button disabled={phone == '' || name == '' || comment == '' || !address} style={{padding: 10, marginBottom: 20}} className='primary__button'>Подтвердить заказ</button>
         </div>
     </div>
   )
