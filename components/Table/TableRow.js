@@ -46,28 +46,14 @@ const TableRow = ({item, hidden}) => {
     }
 
 
-    let test_images = [
-        {
-          original: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
-          thumbnail: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
-          originalClass: 'gallery__item'
-        },
-        {
-          original: 'http://lapar.ru/image/catalog/kangtopboxmini-2.jpg',
-          thumbnail: 'http://lapar.ru/image/catalog/kangtopboxmini-2.jpg',
-          originalClass: 'gallery__item'
-        },
-        {
-          original: 'https://vapehits.ru/images/stories/virtuemart/product/istick_pico_kit_4ml_brushed_silver1.jpg',
-          thumbnail: 'https://vapehits.ru/images/stories/virtuemart/product/istick_pico_kit_4ml_brushed_silver1.jpg',
-          originalClass: 'gallery__item'
-        },
-      ];
+    let test_images = [];
+
+
 
     test_images = item?.images?.rows?.map(img => (
         {
-            original: img?.meta?.downloadHref,
-            thumbnail: img?.meta?.downloadHref,
+            original: img?.miniature?.href?.replace('true', 'false'),
+            thumbnail: img?.miniature?.href?.replace('true', 'false'),
             originalClass: 'gallery__item'
         }
     ))

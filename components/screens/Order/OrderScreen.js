@@ -83,7 +83,7 @@ const OrderScreen = () => {
 
         let settings = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/context/usersettings`, {
           headers: {
-            'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
+            'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
           }
         })
 
@@ -132,7 +132,7 @@ const OrderScreen = () => {
         let order = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/customerorder`, {
           method: 'POST',
           headers: {
-            'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76',
+            'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(orderData)

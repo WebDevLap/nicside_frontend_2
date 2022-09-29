@@ -27,7 +27,7 @@ const Header = () => {
 
     let products = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
       headers: {
-        'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
+        'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
       }
     })
     products = await products.json()
