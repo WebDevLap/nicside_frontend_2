@@ -32,7 +32,7 @@ const TableCategory = ({item, setHidden}) => {
 
   }
 
-  console.log(item)
+  // console.log(item)
 
   return (
     <div className={styles.table__category}>

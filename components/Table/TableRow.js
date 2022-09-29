@@ -81,32 +81,6 @@ const TableRow = ({item, hidden}) => {
         }
     }, [cart])
 
-      
-//   const fetchImages = async () => {
-//     let images = await fetch('http://localhost:8080/' + item?.images?.meta?.href?.slice(8), {
-//         headers: {
-//           'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
-//         }
-//       })
-//       images = await images.json()
-
-//       console.log(images)
-
-//     //   images = images?.rows?.map(item => item)
-
-//       setImages(images)
-
-//   }
-
-//     useEffect(() => {
-//         fetchImages()
-//         if (item?.amount) {
-//             setAmount(item?.amount)
-//         }
-
-
-//     }, [item])
-
 
     function increment() {
         setAmount(amount + 1)
@@ -183,7 +157,7 @@ const TableRow = ({item, hidden}) => {
 
     function handleInput(e) {
         
-        if (e.target.value >= 0 && e.target.value <= 5000 ) {
+        if (e.target.value > 0 && e.target.value <= 5000 ) {
             setAmount(+e.target.value)
 
             let product = cart.filter(product => product.id == item.id)[0]
@@ -211,6 +185,10 @@ const TableRow = ({item, hidden}) => {
                     ]
                 })
             }
+        } else if (+e.target.value <= 0) {
+            setAmount(+e.target.value)
+            let newCart = cart.filter(product => product.id != item.id)
+            setCart(newCart)
         }
 
 

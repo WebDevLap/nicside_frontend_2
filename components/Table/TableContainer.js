@@ -50,7 +50,7 @@ const TableContainer = ({data}) => {
         {
             data?.map((item, index) => {
 
-                console.log(item, item?.pathName,data?.[index - 1]?.pathName)
+                // console.log(item, item?.pathName,data?.[index - 1]?.pathName)
 
                 if (item?.product?.pathName != data?.[index - 1]?.product?.pathName) {
                     return (

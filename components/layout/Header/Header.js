@@ -25,24 +25,26 @@ const Header = () => {
     })
 
 
-    let products = await fetch(`http://localhost:8080/online.moysklad.ru/api/remap/1.2/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
-        headers: {
-          'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
-        }
-      })
-      products = await products.json()
+    let products = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
+      headers: {
+        'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
+      }
+    })
+    products = await products.json()
 
-      products = products?.rows?.map(item => item)
+    products = products?.rows?.map(item => item)
 
-      
-      products = products?.sort(function (a, b) {
-          return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
-      })
+    
+    products = products?.sort(function (a, b) {
+        return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
+    })
 
-      setProducts({
-        products,
-        isLoading: false
-      })
+    products = products?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
+
+    setProducts({
+      products,
+      isLoading: false
+    })
 
   }
   

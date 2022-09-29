@@ -6,16 +6,19 @@ import TableContainer from '../../Table/TableContainer'
 import styles from './OrderScreen.module.css'
 import formatPrice from '../../../utils/formatPrice'
 import { AddressSuggestions } from 'react-dadata';
+import ReactLoader from 'react-loader'
 // import 'react-dadata/dist/react-dadata.css';
 
 const OrderScreen = () => {
 
     const [cart, setCart] = useContext(CartContext)
     
-    const [name, setName] = useState();
-    const [phone, setPhone] = useState();
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState();
-    const [comment, setComment] = useState();
+    const [addressInput, setAddressInput] = useState('');
+    const [comment, setComment] = useState('');
+    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
 
@@ -64,6 +67,91 @@ const OrderScreen = () => {
         }
     }, [cart])
 
+
+    function handleDaData(value) {
+      // console.log(value)
+      setAddress(value)
+    }
+
+    function handleAddressInput(e) {
+      setAddressInput(e.target.value)
+      // console.log(e.target.value)
+    }
+
+    async function handleSubmit() {
+      if (!(phone == '' || name == '' || comment == '' || !addressInput)) {
+
+        let settings = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/context/usersettings`, {
+          headers: {
+            'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
+          }
+        })
+
+        settings = await settings.json()
+
+        console.log(settings)
+
+        let orderPositions = cart?.map(position => {
+          console.log(position)
+
+          let actualPrice = 0
+
+          if (default_summ < 200) {
+            actualPrice = position?.salePrices?.[0]?.value
+          } else if (default_summ < 500) {
+            actualPrice = position?.salePrices?.[1]?.value
+          } else if (default_summ >= 500) {
+            actualPrice = position?.salePrices?.[2]?.value
+          }
+
+          return {
+            quantity: position?.amount,
+            price: actualPrice * 100,
+            assortment: position
+          }
+
+
+        })
+
+        setIsLoading(true)
+
+        let orderData = {
+          organization: settings?.defaultCompany,
+          agent: settings?.defaultCustomerCounterparty,
+          positions: orderPositions,
+          shipmentAddress: addressInput,
+          description: `
+          Покупатель: ${name}
+Номер телефона: ${phone}
+Адрес ${addressInput}
+Сообщение ${comment}
+          `
+        }
+        console.log(orderData)
+
+        let order = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/customerorder`, {
+          method: 'POST',
+          headers: {
+            'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orderData)
+        })
+
+        order = await order.json()
+
+        console.log(order)
+
+        if (order) {
+          setIsLoading(false)
+          setCart([])
+          router.push('/')
+        }
+
+
+      }
+    }
+
   return (
     <div className={styles.order__screen}>
         <Header></Header>
@@ -88,7 +176,14 @@ const OrderScreen = () => {
                 </div> */}
                 <div className={styles.input_group}>
                     <label>Адрес</label>
-                    <AddressSuggestions token="cccd906b9f52be8f1ee449484885f4327766041c" value={address} onChange={setAddress} />
+                    <AddressSuggestions 
+                      token="cccd906b9f52be8f1ee449484885f4327766041c" 
+                      inputProps={{
+                        onInput: handleAddressInput
+                      }} 
+                      value={address} 
+                      onChange={handleDaData} 
+                    />
                 </div>
             </div>
             <div>
@@ -103,7 +198,9 @@ const OrderScreen = () => {
             Итого: <span style={{margin: '0 10px', fontSize: 24, fontWeight: 'bold'}}>{formatPrice(summ)}</span> бел. руб.
         </div>
         <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 20}}>
-            <button disabled={phone == '' || name == '' || comment == '' || !address} style={{padding: 10, marginBottom: 20}} className='primary__button'>Подтвердить заказ</button>
+          <ReactLoader loaded={!isLoading}>
+            <button onClick={handleSubmit} disabled={phone == '' || name == '' || comment == '' || !addressInput} style={{padding: 10, marginBottom: 20}} className='primary__button'>Подтвердить заказ</button>
+          </ReactLoader>
         </div>
     </div>
   )
