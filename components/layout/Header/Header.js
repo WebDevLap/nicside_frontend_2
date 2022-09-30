@@ -85,31 +85,39 @@ const Header = () => {
         return prev + s
       }, 0)
     } else if (default_summ < 500) {
-      
-      if (summ < 200) {
-        setPrice(summ)
-      }
 
-      summ = cart.reduce((prev, now) => {
+      let actualSumm =  cart.reduce((prev, now) => {
 
         let s = now.salePrices?.[1]?.value * now.amount
     
         return prev + s
       }, 0)
 
+      
+      if (actualSumm < 200) {
+        setPrice(actualSumm)
+      } else {
+        summ = actualSumm
+      }
+
+
 
     } else if (default_summ >= 500) {
 
-      if (summ < 500) {
-        setPrice(summ)
-      }
-
-      summ = cart.reduce((prev, now) => {
+      
+      let actualSumm = cart.reduce((prev, now) => {
 
         let s = now.salePrices?.[2]?.value * now.amount
     
         return prev + s
       }, 0)
+
+      if (actualSumm < 500) {
+        setPrice(actualSumm)
+      } else {
+        summ = actualSumm
+      }
+
 
       
     }

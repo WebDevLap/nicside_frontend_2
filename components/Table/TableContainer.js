@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 import formatPrice from '../../utils/formatPrice'
 
 import styles from './Table.module.css'
@@ -8,6 +9,28 @@ import TableRow from './TableRow'
 const TableContainer = ({data, showCategory = true}) => {
 
     const [hidden, setHidden] = useState([])
+    const [priceIndex, setPriceIndex] = useState(0)
+    const [cart, setCart] = useContext(CartContext)
+
+    let default_summ = cart.reduce((prev, now) => {
+
+        let s = now.salePrices?.[0]?.value * now.amount
+
+        return prev + s
+    }, 0)
+
+
+    useEffect(() => {
+        if (default_summ < 200) {
+            setPriceIndex(0)
+        } else if (default_summ < 500) {
+            setPriceIndex(1)
+        } else if (default_summ >= 500) {
+            setPriceIndex(2)
+        }
+    }, [cart])
+
+
 
 
 
@@ -56,12 +79,12 @@ const TableContainer = ({data, showCategory = true}) => {
                     return (
                         < >
                         <TableCategory key={item?.id + 'cat'} setHidden={setHidden} item={item}/>
-                        <TableRow key={item?.id + 'row'} hidden={hidden} item={item}/>
+                        <TableRow key={item?.id + 'row'} hidden={hidden} item={item} priceIndex={priceIndex}/>
                         </>
                     )
                 } else {
                     return (
-                        <TableRow key={item?.id} hidden={hidden} item={item}/>
+                        <TableRow key={item?.id} hidden={hidden} item={item} priceIndex={priceIndex}/>
                     )
                 }
 

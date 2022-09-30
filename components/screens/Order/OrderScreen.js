@@ -132,7 +132,14 @@ const OrderScreen = () => {
     }
 
     function handleAddressInput(e) {
-      setAddressInput(e.target.value)
+      console.log(address)
+      console.log(e.target.value, address?.value)
+      if (e.target.value != address?.value) {
+        
+        setAddressInput('')
+      } else {
+        setAddressInput(e.target.value)
+      }
       // console.log(e.target.value)
     }
 
@@ -256,7 +263,7 @@ const OrderScreen = () => {
                       filterLocations={{ "country": "Беларусь" }}
                       token="cccd906b9f52be8f1ee449484885f4327766041c" 
                       inputProps={{
-                        onInput: handleAddressInput
+                        onBlur: handleAddressInput
                       }} 
                       value={address} 
                       onChange={handleDaData} 

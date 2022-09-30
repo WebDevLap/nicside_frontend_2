@@ -12,7 +12,7 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 
 
 
-const TableRow = ({item, hidden}) => {
+const TableRow = ({item, hidden, priceIndex}) => {
     const [amount, setAmount] = useState(0)
     const [isShowed, setIsShowed] = useState(false)
     const [testImages, setTestImages] = useState([])
@@ -31,34 +31,37 @@ const TableRow = ({item, hidden}) => {
     }, 0)
 
     let summ = 0
-    let priceIndex = 0
     
     function setPriceType() {
         if (default_summ < 200) {
-            priceIndex = 0
             summ = item?.salePrices?.[0]?.value * amount
 
 
         } else if (default_summ < 500) {
 
-            if (summ < 200) {
-                default_summ = summ
+            
+            let actualSumm = item?.salePrices?.[1]?.value * amount
+
+
+            if (actualSumm < 200) {
+                default_summ = actualSumm
                 setPriceType()
+            } else {
+                summ = actualSumm
             }
-
-            priceIndex = 1
-            summ = item?.salePrices?.[1]?.value * amount
-
 
         } else if (default_summ >= 500) {
+
             
-            if (summ < 500) {
-                default_summ = summ
+            let actualSumm = item?.salePrices?.[2]?.value * amount
+            
+            if (actualSumm < 500) {
+                default_summ = actualSumm
                 setPriceType()
+            } else {
+                summ = actualSumm
             }
 
-            priceIndex = 2
-            summ = item?.salePrices?.[2]?.value * amount
 
 
         }
