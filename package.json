@@ -17,6 +17,7 @@
     "react-dadata": "^2.23.0",
     "react-dom": "18.2.0",
     "react-image-gallery": "^1.2.9",
+    "react-input-mask": "^2.0.4",
     "react-loader": "^2.4.7",
     "react-modal": "^3.15.1",
     "react-tooltip": "^4.2.21"

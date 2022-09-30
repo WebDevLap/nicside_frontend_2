@@ -7,6 +7,7 @@ import styles from './OrderScreen.module.css'
 import formatPrice from '../../../utils/formatPrice'
 import { AddressSuggestions } from 'react-dadata';
 import ReactLoader from 'react-loader'
+import ReactInputMask from 'react-input-mask'
 // import 'react-dadata/dist/react-dadata.css';
 
 const OrderScreen = () => {
@@ -165,8 +166,8 @@ const OrderScreen = () => {
                     <input onChange={(e) => {setName(e.target.value)}}></input>
                 </div>
                 <div className={styles.input_group}>
-                    <label>Номер телефона</label>
-                    <input onChange={(e) => {setPhone(e.target.value)}}></input>
+                    <label>Номер телефона</label><ReactInputMask alwaysShowMask  onChange={(e) => {setPhone(e.target.value)}} mask="+375\ (99) 999-99-99" maskChar="_" />
+                    {/* <input onChange={(e) => {setPhone(e.target.value)}}></input> */}
                 </div>
             </div>
             <div>
