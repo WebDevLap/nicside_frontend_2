@@ -15,7 +15,7 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 const TableRow = ({item, hidden}) => {
     const [amount, setAmount] = useState(0)
     const [isShowed, setIsShowed] = useState(false)
-    const [images, setImages] = useState(false)
+    const [testImages, setTestImages] = useState([])
     const [cart, setCart] = useContext(CartContext)
     const router = useRouter()
 
@@ -46,20 +46,56 @@ const TableRow = ({item, hidden}) => {
     }
 
 
-    let test_images = [];
+    async function fetchImages() {
+        let test_images = await Promise.all(item?.images?.rows?.map( async (img) => {
+
+            let img_url = ''
+
+            let res = await fetch(`http://localhost:8080/${img?.meta?.downloadHref}`, {
+                headers: {
+                  'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
+                }
+            })
+
+            if (Object.fromEntries(res.headers)?.['x-final-url']) {
+                console.log(Object.fromEntries(res.headers))
+                img_url = Object.fromEntries(res.headers)?.['x-final-url']
+
+                // let resImg = await fetch(`http://localhost:8080/${img_url}`, {
+                //     headers: {
+                //         'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
+                //     }
+                // })
+
+                // console.log(resImg)
 
 
+            }
 
-    test_images = item?.images?.rows?.map(img => (
-        {
-            original: img?.miniature?.href?.replace('true', 'false'),
-            thumbnail: img?.miniature?.href?.replace('true', 'false'),
-            originalClass: 'gallery__item'
-        }
-    ))
+            
+            
+    
+            // return {
+            //     original: img?.miniature?.href?.replace('true', 'false'),
+            //     thumbnail: img?.miniature?.href?.replace('true', 'false'),
+            //     originalClass: 'gallery__item'
+            // }
+            return {
+                original: img_url,
+                thumbnail: img_url,
+                originalClass: 'gallery__item'
+            }
+        }))
+
+        setTestImages(test_images)
+        
+    }
+
+    
 
     useEffect(() => {
-
+        fetchImages()
+        console.log(testImages)
         let cartItem = cart.find(cartItem => cartItem?.id == item?.id)
 
         if (cartItem) {
@@ -231,7 +267,7 @@ const TableRow = ({item, hidden}) => {
             <ImageGallery  
                 showFullscreenButton={false} 
                 showPlayButton={false} 
-                items={test_images} 
+                items={testImages} 
                 renderLeftNav={(onClick, disabled) => <button
                     type="button"
                     className="image-gallery-icon image-gallery-left-nav"
