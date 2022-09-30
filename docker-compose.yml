@@ -6,3 +6,8 @@ services:
     build: ./nginx
     ports:
       - 80:80
+  node:
+    image: testcab/cors-anywhere
+    restart: always
+    ports:
+      - 8080:8080
