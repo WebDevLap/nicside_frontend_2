@@ -15,3 +15,23 @@
     width: 30%;
     margin-right: 3%;
 }
+
+@media screen and (max-width: 900px) {
+    .order__screen form {
+        flex-wrap: wrap;
+    }
+    .order__screen form > div {
+        width: 45% !important;
+        margin-right: 3%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .order__screen form {
+        flex-wrap: wrap;
+    }
+    .order__screen form > div {
+        width: 100% !important;
+        /* margin-right: 3%; */
+    }
+}

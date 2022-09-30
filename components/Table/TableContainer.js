@@ -5,7 +5,7 @@ import styles from './Table.module.css'
 import TableCategory from './TableCategory'
 import TableRow from './TableRow'
 
-const TableContainer = ({data}) => {
+const TableContainer = ({data, showCategory = true}) => {
 
     const [hidden, setHidden] = useState([])
 
@@ -52,7 +52,7 @@ const TableContainer = ({data}) => {
 
                 // console.log(item, item?.pathName,data?.[index - 1]?.pathName)
 
-                if (item?.product?.pathName != data?.[index - 1]?.product?.pathName) {
+                if (item?.product?.pathName != data?.[index - 1]?.product?.pathName && showCategory) {
                     return (
                         < >
                         <TableCategory key={item?.id + 'cat'} setHidden={setHidden} item={item}/>

@@ -195,7 +195,7 @@ const OrderScreen = () => {
                 </div>
             </div>
         </form>
-        <TableContainer data={cart}/>
+        <TableContainer data={cart} showCategory={false}/>
         <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 20, alignItems: 'center'}}>
             Итого: <span style={{margin: '0 10px', fontSize: 24, fontWeight: 'bold'}}>{formatPrice(summ)}</span> бел. руб.
         </div>
