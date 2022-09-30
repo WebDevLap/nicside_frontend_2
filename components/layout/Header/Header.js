@@ -25,7 +25,7 @@ const Header = () => {
     })
 
 
-    let products = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
+    let products = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly;stockStore=https://online.moysklad.ru/api/remap/1.2/entity/store/8179a7a1-c29d-11eb-0a80-048e00039ac0;quantityMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
       headers: {
         'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
       }

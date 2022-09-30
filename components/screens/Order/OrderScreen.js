@@ -177,6 +177,7 @@ const OrderScreen = () => {
                 <div className={styles.input_group}>
                     <label>Адрес</label>
                     <AddressSuggestions 
+                      filterLocations={{ "country": "Беларусь" }}
                       token="cccd906b9f52be8f1ee449484885f4327766041c" 
                       inputProps={{
                         onInput: handleAddressInput

@@ -58,7 +58,7 @@ const TableRow = ({item, hidden}) => {
             })
 
             if (Object.fromEntries(res.headers)?.['x-final-url']) {
-                console.log(Object.fromEntries(res.headers))
+                // console.log(Object.fromEntries(res.headers))
                 img_url = Object.fromEntries(res.headers)?.['x-final-url']
 
                 // let resImg = await fetch(`http://localhost:8080/${img_url}`, {
@@ -95,7 +95,6 @@ const TableRow = ({item, hidden}) => {
 
     useEffect(() => {
         fetchImages()
-        console.log(testImages)
         let cartItem = cart.find(cartItem => cartItem?.id == item?.id)
 
         if (cartItem) {
@@ -225,24 +224,23 @@ const TableRow = ({item, hidden}) => {
             {/* {console.log(item?.images?.rows?.[0]?.tiny?.href)} */}
             <img src={item?.images?.rows?.[0]?.tiny?.href}></img> 
         </div>
-        {/* <div className={styles.code}>
-            {item.code}
-        </div> */}
-        <Tooltip
-            placement="bottom"
-            overlay={item.description}
-            overlayClassName="mytooltip"
-            arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
-        >
+        {item.description ? (
+            <Tooltip
+                placement="bottomLeft"
+                overlay={item.description}
+                overlayClassName="mytooltip"
+                arrowContent={<div className="rc-tooltip-arrow-inner"></div>}
+            >
 
-        <div id={'image' + item.id} className={styles.title} data-tip={item.description}>
-            {item.name}
-            {/* <ReactTooltip border={1} borderColor="#ccc" className="mytooltip" type="light" effect="solid" place='bottom' multiline /> */}
-        </div>
-        </Tooltip>
-        {/* <div className={styles.sku}>
-            {item.description}  
-        </div>   */}
+            <div id={'image' + item.id} className={styles.title} data-tip={item.description}>
+                {item.name}
+            </div>
+            </Tooltip>
+        ) : (
+            <div id={'image' + item.id} className={styles.title} data-tip={item.description}>
+                {item.name}
+            </div>
+        )}
         <div className={styles.amount}>
             <button disabled={(amount <= 0)} onClick={decrement}>-</button>
             <input min={0} max={5000} onInput={handleInput} value={amount} type={'number'}/>
