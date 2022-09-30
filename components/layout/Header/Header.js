@@ -166,7 +166,7 @@ const Header = () => {
                     <select value={category?.category} onChange={handleSelect}>
                       <option value="">Все</option>
                       {products?.categories?.map(cat => (
-                        <option value={cat?.name} >{cat?.name}</option>
+                        <option key={cat?.id} value={cat?.name} >{cat?.name}</option>
                       ))}
                       {/* <option value="Жидкость">Жидкость</option>
                       <option value="Расходники">Расходники</option>
