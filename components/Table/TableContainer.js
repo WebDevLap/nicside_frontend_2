@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import formatPrice from '../../utils/formatPrice'
 
 import styles from './Table.module.css'
@@ -6,6 +6,11 @@ import TableCategory from './TableCategory'
 import TableRow from './TableRow'
 
 const TableContainer = ({data}) => {
+
+    const [hidden, setHidden] = useState([])
+
+
+
   return (
     <div className={styles.table}>
         <div className={styles.table_header}>
@@ -42,11 +47,25 @@ const TableContainer = ({data}) => {
                 Сумма
             </div>
         </div>
-        <TableCategory />
         {
-            data?.map(item => (
-                <TableRow item={item}/>
-            ))
+            data?.map((item, index) => {
+
+                // console.log(item, item?.pathName,data?.[index - 1]?.pathName)
+
+                if (item?.product?.pathName != data?.[index - 1]?.product?.pathName) {
+                    return (
+                        < >
+                        <TableCategory key={item?.id + 'cat'} setHidden={setHidden} item={item}/>
+                        <TableRow key={item?.id + 'row'} hidden={hidden} item={item}/>
+                        </>
+                    )
+                } else {
+                    return (
+                        <TableRow key={item?.id} hidden={hidden} item={item}/>
+                    )
+                }
+
+            })
         }
     </div>
   )

@@ -12,7 +12,7 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 
 
 
-const TableRow = ({item}) => {
+const TableRow = ({item, hidden}) => {
     const [amount, setAmount] = useState(0)
     const [isShowed, setIsShowed] = useState(false)
     const [images, setImages] = useState(false)
@@ -23,49 +23,49 @@ const TableRow = ({item}) => {
         ReactTooltip.rebuild();
     });
 
-    const test_images = [
+    let default_summ = cart.reduce((prev, now) => {
+
+        let s = now.salePrices?.[0]?.value * now.amount
+
+        return prev + s
+    }, 0)
+
+    let summ = 0
+    let priceIndex = 0
+    
+    
+    if (default_summ < 200) {
+        priceIndex = 0
+        summ = item?.salePrices?.[0]?.value * amount
+    } else if (default_summ < 500) {
+        priceIndex = 1
+        summ = item?.salePrices?.[1]?.value * amount
+    } else if (default_summ >= 500) {
+        priceIndex = 2
+        summ = item?.salePrices?.[2]?.value * amount
+    }
+
+
+    let test_images = [];
+
+
+
+    test_images = item?.images?.rows?.map(img => (
         {
-          original: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
-          thumbnail: 'https://vape-smart.com/wp-content/uploads/2016/01/honeystick-vaporizer.png',
-          originalClass: 'gallery__item'
-        },
-        {
-          original: 'http://lapar.ru/image/catalog/kangtopboxmini-2.jpg',
-          thumbnail: 'http://lapar.ru/image/catalog/kangtopboxmini-2.jpg',
-          originalClass: 'gallery__item'
-        },
-        {
-          original: 'https://vapehits.ru/images/stories/virtuemart/product/istick_pico_kit_4ml_brushed_silver1.jpg',
-          thumbnail: 'https://vapehits.ru/images/stories/virtuemart/product/istick_pico_kit_4ml_brushed_silver1.jpg',
-          originalClass: 'gallery__item'
-        },
-      ];
+            original: img?.miniature?.href?.replace('true', 'false'),
+            thumbnail: img?.miniature?.href?.replace('true', 'false'),
+            originalClass: 'gallery__item'
+        }
+    ))
 
-      
-//   const fetchImages = async () => {
-//     let images = await fetch('http://localhost:8080/' + item?.images?.meta?.href?.slice(8), {
-//         headers: {
-//           'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
-//         }
-//       })
-//       images = await images.json()
+    useEffect(() => {
 
-//       console.log(images)
+        let cartItem = cart.find(cartItem => cartItem?.id == item?.id)
 
-//     //   images = images?.rows?.map(item => item)
-
-//       setImages(images)
-
-//   }
-
-//     useEffect(() => {
-//         fetchImages()
-//         if (item?.amount) {
-//             setAmount(item?.amount)
-//         }
-
-
-//     }, [item])
+        if (cartItem) {
+            setAmount(cartItem?.amount)
+        }
+    }, [cart])
 
 
     function increment() {
@@ -98,6 +98,7 @@ const TableRow = ({item}) => {
         }
 
     }
+
     function decrement() {
 
         let product = cart.filter(product => product.id == item.id)[0]
@@ -142,7 +143,7 @@ const TableRow = ({item}) => {
 
     function handleInput(e) {
         
-        if (e.target.value >= 0 && e.target.value <= 5000 ) {
+        if (e.target.value > 0 && e.target.value <= 5000 ) {
             setAmount(+e.target.value)
 
             let product = cart.filter(product => product.id == item.id)[0]
@@ -170,6 +171,10 @@ const TableRow = ({item}) => {
                     ]
                 })
             }
+        } else if (+e.target.value <= 0) {
+            setAmount(+e.target.value)
+            let newCart = cart.filter(product => product.id != item.id)
+            setCart(newCart)
         }
 
 
@@ -178,10 +183,11 @@ const TableRow = ({item}) => {
     let selected = !(amount > 0)
 
   return (
-    <div className={selected ? styles.table_row : styles.table_row__active}>
+    <div style={hidden?.includes(item?.id) ? {display: 'none'}: {}} className={selected ? styles.table_row : styles.table_row__active}>
         
         <div className={styles.image} onClick={() => {setIsShowed(true)}}>
-            <img src={item.meta}></img> 
+            {/* {console.log(item?.images?.rows?.[0]?.tiny?.href)} */}
+            <img src={item?.images?.rows?.[0]?.tiny?.href}></img> 
         </div>
         {/* <div className={styles.code}>
             {item.code}
@@ -208,18 +214,18 @@ const TableRow = ({item}) => {
         </div>
         <div className={styles.table__prices}>
             
-            <div className={styles.price}>
+            <div className={styles.price} style={priceIndex == 0 ? {fontWeight: 'bold'} : {}}>
             <p><span>от 100 руб.</span>{formatPrice(item.salePrices?.[0]?.value)}</p>
             </div>
-            <div className={styles.price}>
+            <div className={styles.price} style={priceIndex == 1 ? {fontWeight: 'bold'} : {}}>
                 <p><span>от 200 руб.</span>{formatPrice(item.salePrices?.[1]?.value)}</p>
             </div>
-            <div className={styles.price}>
+            <div className={styles.price} style={priceIndex == 2 ? {fontWeight: 'bold'} : {}}>
                 <p><span>от 500 руб.</span>{formatPrice(item.salePrices?.[2]?.value)}</p>
             </div>
         </div>
-        <div className={styles.summ}>
-            <p><span>Сумма</span>{formatPrice(item.salePrices?.[0]?.value * amount)}</p>
+        <div className={styles.summ} style={{fontWeight: 'bold'}}>
+            <p><span>Сумма</span>{formatPrice(summ)}</p>
         </div>
         <div style={{display: isShowed ? 'block' : 'none'}} className={styles.image__gallery}>
             <ImageGallery  

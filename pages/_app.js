@@ -9,8 +9,14 @@ import { CategoryContext } from '../contexts/CategoryContext';
 function MyApp({ Component, pageProps }) {
 
   const [cartContext, setCartContext] = useState([]);
-  const [productContext, setProductContext] = useState([]);
-  const [categoryContext, setCategoryContext] = useState('');
+  const [productContext, setProductContext] = useState({
+    products: [],
+    isLoading: true
+  });
+  const [categoryContext, setCategoryContext] = useState({
+    category: '',
+    search: ''
+  });
 
 
 

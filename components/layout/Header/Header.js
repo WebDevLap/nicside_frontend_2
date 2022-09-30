@@ -11,21 +11,40 @@ const Header = () => {
 
   const [cart, setCart] = useContext(CartContext)
   const [products, setProducts] = useContext(ProductContext)
+  const [search, setSearch] = useState('')
 
 
   const [category, setCategory] = useContext(CategoryContext)
 
   const fetchProducts = async () => {
-    let products = await fetch(`http://localhost:8080/online.moysklad.ru/api/remap/1.2/entity/product?filter=${category && 'pathName=' + category}`, {
-        headers: {
-          'Authorization': 'e90e31c9edb91eb7a9907e90de541cecce642a76'
-        }
-      })
-      products = await products.json()
 
-      products = products?.rows?.map(item => item)
+    
+    setProducts({
+      products: [],
+      isLoading: true
+    })
 
-      setProducts(products)
+
+    let products = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
+      headers: {
+        'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
+      }
+    })
+    products = await products.json()
+
+    products = products?.rows?.map(item => item)
+
+    
+    products = products?.sort(function (a, b) {
+        return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
+    })
+
+    products = products?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
+
+    setProducts({
+      products,
+      isLoading: false
+    })
 
   }
   
@@ -35,12 +54,41 @@ const Header = () => {
 
   const router = useRouter()
 
-  let summ = cart.reduce((prev, now) => {
+  
+  let default_summ = cart.reduce((prev, now) => {
 
-    let s = now.price * now.amount
+    let s = now.salePrices?.[0]?.value * now.amount
 
     return prev + s
   }, 0)
+
+  let summ = 0
+
+
+  if (default_summ < 200) {
+    summ = cart.reduce((prev, now) => {
+
+      let s = now.salePrices?.[0]?.value * now.amount
+  
+      return prev + s
+    }, 0)
+  } else if (default_summ < 500) {
+    summ = cart.reduce((prev, now) => {
+
+      let s = now.salePrices?.[1]?.value * now.amount
+  
+      return prev + s
+    }, 0)
+  } else if (default_summ >= 500) {
+    summ = cart.reduce((prev, now) => {
+
+      let s = now.salePrices?.[2]?.value * now.amount
+  
+      return prev + s
+    }, 0)
+  }
+
+  
 
   function handleOrder() {
     if (summ > 0) {
@@ -49,7 +97,22 @@ const Header = () => {
   }
 
   function handleSelect(e) {
-    setCategory(e.target.value)
+    setCategory(prev => ({...prev, category: e.target.value}))
+  }
+
+  
+  function handleSearch(e) {
+    setSearch(e.target.value)
+  }
+
+  
+  function handleFind(e) {
+    setCategory(prev => ({...prev, search}))
+  }
+
+  function handleClean(e) {
+    setSearch('')
+    setCategory(prev => ({...prev, search: ''}))
   }
 
   return (
@@ -65,16 +128,17 @@ const Header = () => {
               <div>
                 <div className={styles.search}>
                     <div className={styles.input__wrapper}>
-                        <Icon icon="eva:search-fill" />
-                        <input placeholder='Введите название или описание товара'></input>
+                        <Icon className={styles.search__search_icon} icon="eva:search-fill" />
+                        <input value={search} onInput={handleSearch} placeholder='Введите название или описание товара'></input>
+                        {search && <Icon onClick={handleClean} className={styles.search__close_icon} icon="eva:close-fill" />}
                     </div>
-                    <button className='primary__button'>Найти</button>
+                    <button className='primary__button' onClick={handleFind}>Найти</button>
                 </div>
                 <div className={styles.category__select}>
                     <select value={category} onChange={handleSelect}>
                       <option value="">Все</option>
                       <option value="Железо" >Железо</option>
-                      <option value="Жидкости">Жидкости</option>
+                      <option value="Жидкость">Жидкость</option>
                       <option value="Расходники">Расходники</option>
                       <option value="Напитки">Напитки</option>
                     </select>
