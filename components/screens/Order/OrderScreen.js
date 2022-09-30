@@ -190,7 +190,7 @@ const OrderScreen = () => {
             </div>
             <div>
                 <div className={styles.input_group}>
-                    <label>Комментарий</label>
+                    <label>Контакт для связи</label>
                     <textarea onChange={(e) => {setComment(e.target.value)}}></textarea>
                 </div>
             </div>
