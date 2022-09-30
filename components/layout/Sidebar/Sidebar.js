@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import styles from './Sidebar.module.css'
 import Modal from 'react-modal';
 import { CategoryContext } from '../../../contexts/CategoryContext';
+import { ProductContext } from '../../../contexts/ProductsContext';
 
 const customStyles = {
     content: {
@@ -22,6 +23,8 @@ const Sidebar = () => {
 
     
     const [category, setCategory] = useContext(CategoryContext)
+    const [products, setProducts] = useContext(ProductContext)
+
 
 
     function openModal() {
@@ -46,10 +49,12 @@ const Sidebar = () => {
         <h2>Категории</h2>
         <ul>
             <a onClick={() => {handleCategory('')}}><li className={category?.category == '' && styles.active__link}>Все</li></a>
-            <a onClick={() => {handleCategory('Железо')}}><li className={category?.category == 'Железо' && styles.active__link}>Железо</li></a>
-            <a onClick={() => {handleCategory('Жидкость')}}><li className={category?.category == 'Жидкость' && styles.active__link}>Жидкость</li></a>
+            {products?.categories?.map(cat => (
+              <a onClick={() => {handleCategory(cat?.name)}}><li className={category?.category == cat?.name && styles.active__link}>{cat?.name}</li></a>
+            ))}
+            {/* <a onClick={() => {handleCategory('Жидкость')}}><li className={category?.category == 'Жидкость' && styles.active__link}>Жидкость</li></a>
             <a onClick={() => {handleCategory('Расходники')}}><li className={category?.category == 'Расходники' && styles.active__link}>Расходники</li></a>
-            <a onClick={() => {handleCategory('Напитки')}}><li className={category?.category == 'Напитки' && styles.active__link}>Напитки</li></a>
+            <a onClick={() => {handleCategory('Напитки')}}><li className={category?.category == 'Напитки' && styles.active__link}>Напитки</li></a> */}
         </ul>
         <div className={styles.sidebar__footer}>
             <Modal

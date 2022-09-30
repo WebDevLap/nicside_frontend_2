@@ -8,6 +8,7 @@ import formatPrice from '../../../utils/formatPrice'
 import { AddressSuggestions } from 'react-dadata';
 import ReactLoader from 'react-loader'
 import ReactInputMask from 'react-input-mask'
+import ReCAPTCHA from 'react-google-recaptcha'
 // import 'react-dadata/dist/react-dadata.css';
 
 const OrderScreen = () => {
@@ -20,6 +21,7 @@ const OrderScreen = () => {
     const [addressInput, setAddressInput] = useState('');
     const [comment, setComment] = useState('');
     const [isLoading, setIsLoading] = useState(false)
+    const [isVerified, setIsVerified] = useState(true)
 
     const router = useRouter()
 
@@ -36,30 +38,62 @@ const OrderScreen = () => {
     
       let summ = 0
     
-    
-      if (default_summ < 200) {
-        summ = cart.reduce((prev, now) => {
-    
-          let s = now.salePrices?.[0]?.value * now.amount
+      function setPrice() {
+        
+        if (default_summ < 200) {
+          summ = cart.reduce((prev, now) => {
       
-          return prev + s
-        }, 0)
-      } else if (default_summ < 500) {
-        summ = cart.reduce((prev, now) => {
-    
-          let s = now.salePrices?.[1]?.value * now.amount
+            let s = now.salePrices?.[0]?.value * now.amount
+        
+            return prev + s
+          }, 0)
+
+          
+        } else if (default_summ < 500) {
+
+          
+          let actualSumm = cart.reduce((prev, now) => {
       
-          return prev + s
-        }, 0)
-      } else if (default_summ >= 500) {
-        summ = cart.reduce((prev, now) => {
-    
-          let s = now.salePrices?.[2]?.value * now.amount
+            let s = now.salePrices?.[1]?.value * now.amount
+        
+            return prev + s
+          }, 0)
+
+          if (actualSumm < 200) {
+            default_summ = actualSumm
+            setPrice()
+          } else {
+            summ = actualSumm
+          }
+
+
+          
+
+        } else if (default_summ >= 500) {
+
+          
+          let actualSumm = cart.reduce((prev, now) => {
       
-          return prev + s
-        }, 0)
+            let s = now.salePrices?.[2]?.value * now.amount
+        
+            return prev + s
+          }, 0)
+
+          if (actualSumm < 500) {
+            default_summ = actualSumm
+            setPrice()
+          } else {
+            summ = actualSumm
+          }
+
+
+          
+
+        }
+    
       }
-    
+
+      setPrice()
 
     useEffect(() => {
 
@@ -67,6 +101,29 @@ const OrderScreen = () => {
             router.push('/')
         }
     }, [cart])
+
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+
+        let catchaToken = localStorage.getItem('captchaToken')
+        
+        if (catchaToken) {
+
+          let time = +catchaToken.split(';')[1]
+          let date = catchaToken.split(';')[0]
+
+          if (date == new Date()?.toLocaleDateString()) {
+            if (time == 3) {
+              setIsVerified(false)
+            } 
+          } else {
+            localStorage.setItem('captchaToken', new Date()?.toLocaleDateString() + ';' + 1)
+          }
+        } else {
+          localStorage.setItem('captchaToken', new Date()?.toLocaleDateString() + ';' + 1)
+        }
+      }
+    }, [])
 
 
     function handleDaData(value) {
@@ -92,6 +149,7 @@ const OrderScreen = () => {
 
         console.log(settings)
 
+
         let orderPositions = cart?.map(position => {
           console.log(position)
 
@@ -116,11 +174,13 @@ const OrderScreen = () => {
 
         setIsLoading(true)
 
+
         let orderData = {
           organization: settings?.defaultCompany,
           agent: settings?.defaultCustomerCounterparty,
           positions: orderPositions,
           shipmentAddress: addressInput,
+          store: settings?.defaultPlace,
           description: `
           Покупатель: ${name}
 Номер телефона: ${phone}
@@ -128,7 +188,7 @@ const OrderScreen = () => {
 Сообщение ${comment}
           `
         }
-        console.log(orderData)
+        // console.log(orderData)
 
         let order = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/customerorder`, {
           method: 'POST',
@@ -144,14 +204,29 @@ const OrderScreen = () => {
         console.log(order)
 
         if (order) {
+
+          
+          let catchaToken = localStorage.getItem('captchaToken')
+        
+
+          let time = +catchaToken.split(';')[1]
+
           setIsLoading(false)
           setCart([])
+          localStorage.setItem('captchaToken', new Date()?.toLocaleDateString() + ';' + (time + 1))
           router.push('/')
         }
 
 
       }
     }
+
+    function verifyHandler(value) {
+      console.log(value)
+      setIsVerified(true)
+      localStorage.setItem('captchaToken', new Date()?.toLocaleDateString() + ';' + 1)
+    }
+
 
   return (
     <div className={styles.order__screen}>
@@ -199,10 +274,20 @@ const OrderScreen = () => {
         <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 20, alignItems: 'center'}}>
             Итого: <span style={{margin: '0 10px', fontSize: 24, fontWeight: 'bold'}}>{formatPrice(summ)}</span> бел. руб.
         </div>
-        <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 20}}>
-          <ReactLoader loaded={!isLoading}>
-            <button onClick={handleSubmit} disabled={phone == '' || name == '' || comment == '' || !addressInput} style={{padding: 10, marginBottom: 20}} className='primary__button'>Подтвердить заказ</button>
-          </ReactLoader>
+        <div style={{display: 'flex',flexDirection: 'column', alignItems: 'flex-end', marginTop: 20}}>
+          {isVerified ? (
+            <ReactLoader loaded={!isLoading}>
+            <button onClick={handleSubmit} disabled={phone.includes('_') || name == '' || comment == '' || !addressInput} style={{padding: 10, marginBottom: 20, marginTop: 20}} className='primary__button'>Подтвердить заказ</button>
+            </ReactLoader>
+          ): (
+            <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY}
+                // size="normal"
+                // onloadCallback={callback}
+                render="explicit"
+                onChange={verifyHandler}
+            />
+          )}
         </div>
     </div>
   )

@@ -33,17 +33,38 @@ const TableRow = ({item, hidden}) => {
     let summ = 0
     let priceIndex = 0
     
-    
-    if (default_summ < 200) {
-        priceIndex = 0
-        summ = item?.salePrices?.[0]?.value * amount
-    } else if (default_summ < 500) {
-        priceIndex = 1
-        summ = item?.salePrices?.[1]?.value * amount
-    } else if (default_summ >= 500) {
-        priceIndex = 2
-        summ = item?.salePrices?.[2]?.value * amount
+    function setPriceType() {
+        if (default_summ < 200) {
+            priceIndex = 0
+            summ = item?.salePrices?.[0]?.value * amount
+
+
+        } else if (default_summ < 500) {
+
+            if (summ < 200) {
+                default_summ = summ
+                setPriceType()
+            }
+
+            priceIndex = 1
+            summ = item?.salePrices?.[1]?.value * amount
+
+
+        } else if (default_summ >= 500) {
+            
+            if (summ < 500) {
+                default_summ = summ
+                setPriceType()
+            }
+
+            priceIndex = 2
+            summ = item?.salePrices?.[2]?.value * amount
+
+
+        }
     }
+
+    setPriceType()
 
 
     async function fetchImages() {
@@ -94,13 +115,17 @@ const TableRow = ({item, hidden}) => {
     
 
     useEffect(() => {
-        fetchImages()
         let cartItem = cart.find(cartItem => cartItem?.id == item?.id)
 
         if (cartItem) {
             setAmount(cartItem?.amount)
         }
     }, [cart])
+
+    
+    useEffect(() => {
+        fetchImages()
+    }, [])
 
 
     function increment() {
@@ -178,7 +203,9 @@ const TableRow = ({item, hidden}) => {
 
     function handleInput(e) {
         
-        if (e.target.value > 0 && e.target.value <= 5000 ) {
+        if (e.target.value == '') {
+            setAmount(null)
+        } else if (e.target.value > 0 && e.target.value <= 5000 ) {
             setAmount(+e.target.value)
 
             let product = cart.filter(product => product.id == item.id)[0]
@@ -210,9 +237,19 @@ const TableRow = ({item, hidden}) => {
             setAmount(+e.target.value)
             let newCart = cart.filter(product => product.id != item.id)
             setCart(newCart)
+        } else {
+            console.log('string')
         }
 
 
+    }
+
+    function handleBlur(e) {
+        if (e.target.value == '') {
+            setAmount(0)
+            let newCart = cart.filter(product => product.id != item.id)
+            setCart(newCart)
+        }
     }
 
     let selected = !(amount > 0)
@@ -242,9 +279,9 @@ const TableRow = ({item, hidden}) => {
             </div>
         )}
         <div className={styles.amount}>
-            <button disabled={(amount <= 0)} onClick={decrement}>-</button>
-            <input min={0} max={5000} onInput={handleInput} value={amount} type={'number'}/>
-            <button disabled={(amount >= 5000)} onClick={increment}>+</button>
+            <span className={(amount <= 0) ? styles.disabled_button : null} onClick={decrement} >-</span>
+            <input min={0} max={5000} onInput={handleInput} onBlur={handleBlur} value={amount} type={'number'}/>
+            <span className={(amount >= 5000) ? styles.disabled_button : null} onClick={increment}>+</span>
         </div>
         <div className={styles.table__prices}>
             

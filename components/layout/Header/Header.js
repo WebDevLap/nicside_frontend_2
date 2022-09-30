@@ -21,29 +21,40 @@ const Header = () => {
     
     setProducts({
       products: [],
-      isLoading: true
+      isLoading: true,
+      categories: products?.categories
     })
 
 
-    let products = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly;stockStore=https://online.moysklad.ru/api/remap/1.2/entity/store/8179a7a1-c29d-11eb-0a80-048e00039ac0;quantityMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
+    let newProducts = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly;stockStore=https://online.moysklad.ru/api/remap/1.2/entity/store/8179a7a1-c29d-11eb-0a80-048e00039ac0;quantityMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
       headers: {
         'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
       }
     })
-    products = await products.json()
 
-    products = products?.rows?.map(item => item)
+    let categories = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/productfolder`, {
+      headers: {
+        'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
+      }
+    })
 
+
+    newProducts = await newProducts.json()
+    categories = await categories.json()
+
+    newProducts = newProducts?.rows?.map(item => item)
+    categories = categories?.rows?.map(item => item)
     
-    products = products?.sort(function (a, b) {
+    newProducts = newProducts?.sort(function (a, b) {
         return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
     })
 
-    products = products?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
+    newProducts = newProducts?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
 
     setProducts({
-      products,
-      isLoading: false
+      products: newProducts,
+      isLoading: false,
+      categories
     })
 
   }
@@ -64,31 +75,48 @@ const Header = () => {
 
   let summ = 0
 
+  function setPrice(default_summ) {
+    
+    if (default_summ < 200) {
+      summ = cart.reduce((prev, now) => {
 
-  if (default_summ < 200) {
-    summ = cart.reduce((prev, now) => {
+        let s = now.salePrices?.[0]?.value * now.amount
+    
+        return prev + s
+      }, 0)
+    } else if (default_summ < 500) {
+      
+      if (summ < 200) {
+        setPrice(summ)
+      }
 
-      let s = now.salePrices?.[0]?.value * now.amount
-  
-      return prev + s
-    }, 0)
-  } else if (default_summ < 500) {
-    summ = cart.reduce((prev, now) => {
+      summ = cart.reduce((prev, now) => {
 
-      let s = now.salePrices?.[1]?.value * now.amount
-  
-      return prev + s
-    }, 0)
-  } else if (default_summ >= 500) {
-    summ = cart.reduce((prev, now) => {
+        let s = now.salePrices?.[1]?.value * now.amount
+    
+        return prev + s
+      }, 0)
 
-      let s = now.salePrices?.[2]?.value * now.amount
-  
-      return prev + s
-    }, 0)
+
+    } else if (default_summ >= 500) {
+
+      if (summ < 500) {
+        setPrice(summ)
+      }
+
+      summ = cart.reduce((prev, now) => {
+
+        let s = now.salePrices?.[2]?.value * now.amount
+    
+        return prev + s
+      }, 0)
+
+      
+    }
+
   }
-
   
+  setPrice(default_summ)
 
   function handleOrder() {
     if (summ > 0) {
@@ -135,12 +163,14 @@ const Header = () => {
                     <button className='primary__button' onClick={handleFind}>Найти</button>
                 </div>
                 <div className={styles.category__select}>
-                    <select value={category} onChange={handleSelect}>
+                    <select value={category?.category} onChange={handleSelect}>
                       <option value="">Все</option>
-                      <option value="Железо" >Железо</option>
-                      <option value="Жидкость">Жидкость</option>
+                      {products?.categories?.map(cat => (
+                        <option value={cat?.name} >{cat?.name}</option>
+                      ))}
+                      {/* <option value="Жидкость">Жидкость</option>
                       <option value="Расходники">Расходники</option>
-                      <option value="Напитки">Напитки</option>
+                      <option value="Напитки">Напитки</option> */}
                     </select>
                 </div>
               </div>

@@ -9,7 +9,7 @@ const TableCategory = ({item, setHidden}) => {
   const [isOpen, setIsOpen] = useState(false)
 
 
-  const sortedProducts = products?.products?.filter(product => product?.pathName == item?.pathName)?.map(item => item.id)
+  const sortedProducts = products?.products?.filter(product => product?.product?.pathName == item?.product?.pathName)?.map(item => item.id)
 
 
   const handleHide = (e) => {

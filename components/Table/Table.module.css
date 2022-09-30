@@ -18,7 +18,7 @@
         width: 50px;
         padding: 4px 10px;
     }
-    .table .amount button {
+    .table .amount span {
         width: 26px !important;
         height: 26px !important;
         font-size: 18px !important;
@@ -102,7 +102,8 @@
     width: 60px;
     padding: 4px 10px;
 }
-.table .amount button {
+.table .amount span {
+    user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,18 +118,18 @@
     height: 30px;
     margin: 0 10px;
 }
-.table .amount button:hover {
+.table .amount span:hover {
     background: #503E8D;
     color: #fff;
 }
-.table .amount button:disabled {
+.table .amount .disabled_button {
     border: 2px solid rgb(226, 222, 228);
     color: rgb(226, 222, 228);
     cursor:no-drop
     /* background: #503E8D;
     color: #fff; */
 }
-.table .amount button:disabled:hover {
+.table .amount .disabled_button:hover {
     color: rgb(226, 222, 228);
     background: #fff;
     /* background: #503E8D;
