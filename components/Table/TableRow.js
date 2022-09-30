@@ -51,7 +51,7 @@ const TableRow = ({item, hidden}) => {
 
             let img_url = ''
 
-            let res = await fetch(`http://localhost:8080/${img?.meta?.downloadHref}`, {
+            let res = await fetch(`${process.env.NEXT_PUBLIC_CORS_HOST}/${img?.meta?.downloadHref}`, {
                 headers: {
                   'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
                 }
