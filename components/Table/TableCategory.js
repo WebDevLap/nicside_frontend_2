@@ -3,22 +3,26 @@ import React, { useContext, useState } from 'react'
 import { ProductContext } from '../../contexts/ProductsContext'
 import styles from './Table.module.css'
 
-const TableCategory = ({item, setHidden}) => {
+const TableCategory = ({item, setHidden, showButton, data}) => {
 
   const [products, setProducts] = useContext(ProductContext)
   const [isOpen, setIsOpen] = useState(false)
 
 
-  const sortedProducts = products?.products?.filter(product => product?.product?.pathName == item?.product?.pathName)?.map(item => item.id)
+  const sortedProducts = data?.filter(product => product?.product?.pathName == item?.product?.pathName)?.map(item => item.id)
 
 
   const handleHide = (e) => {
     setIsOpen(true)
 
-    setHidden(prev => ([
-      ...prev, 
-      ...sortedProducts
-    ]))
+    // console.log(sortedProducts)
+
+    setHidden(prev => {
+      return [
+        ...prev, 
+        ...sortedProducts
+      ]
+    })
 
   }
 
@@ -37,11 +41,11 @@ const TableCategory = ({item, setHidden}) => {
   return (
     <div className={styles.table__category}>
       <p>{item?.product?.pathName || item?.pathName}</p>
-      {isOpen ? (
-        <Icon onClick={handleShow} icon="bx:plus"  />
-      ) : (
-        <Icon onClick={handleHide} icon="bx:minus"  />
-      )}
+        {isOpen ? (
+          <Icon onClick={handleShow} icon="bx:plus"  />
+        ) : (
+          <Icon onClick={handleHide} icon="bx:minus"  />
+        )}
     </div>
   )
 }
