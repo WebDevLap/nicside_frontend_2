@@ -97,9 +97,17 @@ const OrderScreen = () => {
 
     useEffect(() => {
 
-        if (cart.length == 0) {
+        if (cart.length == 0 && router.pathname == '/order') {
             router.push('/')
         }
+        
+        let newCart = cart?.sort(function (a, b) {
+          return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
+        })
+
+        setCart(newCart)
+
+
     }, [cart])
 
     useEffect(() => {
@@ -218,10 +226,9 @@ const OrderScreen = () => {
 
           let time = +catchaToken.split(';')[1]
 
+          router.push('/complete')
           setIsLoading(false)
-          setCart([])
           localStorage.setItem('captchaToken', new Date()?.toLocaleDateString() + ';' + (time + 1))
-          router.push('/')
         }
 
 
@@ -277,7 +284,7 @@ const OrderScreen = () => {
                 </div>
             </div>
         </form>
-        <TableContainer data={cart} showCategory={false}/>
+        <TableContainer data={cart} showCategory={true} showButton={false}/>
         <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 20, alignItems: 'center'}}>
             Итого: <span style={{margin: '0 10px', fontSize: 24, fontWeight: 'bold'}}>{formatPrice(summ)}</span> бел. руб.
         </div>
