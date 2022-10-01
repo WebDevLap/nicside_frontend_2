@@ -19,15 +19,49 @@ const TableContainer = ({data, showCategory = true}) => {
         return prev + s
     }, 0)
 
-
-    useEffect(() => {
+    function setPrice() {
         if (default_summ < 200) {
+
+
             setPriceIndex(0)
         } else if (default_summ < 500) {
-            setPriceIndex(1)
+            
+            let actuallySumm = cart.reduce((prev, now) => {
+
+                let s = now.salePrices?.[1]?.value * now.amount
+        
+                return prev + s
+            }, 0)
+
+            if (actuallySumm < 200) {
+                default_summ = actuallySumm
+                setPrice()
+            } else {
+                
+                setPriceIndex(1)
+            }
+
         } else if (default_summ >= 500) {
-            setPriceIndex(2)
+
+            let actuallySumm = cart.reduce((prev, now) => {
+
+                let s = now.salePrices?.[2]?.value * now.amount
+        
+                return prev + s
+            }, 0)
+
+            if (actuallySumm < 500) {
+                default_summ = actuallySumm
+                setPrice()
+            } else {
+                
+                setPriceIndex(2)
+            }
         }
+    }
+
+    useEffect(() => {
+        setPrice()
     }, [cart])
 
 
