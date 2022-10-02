@@ -20,8 +20,18 @@ const TableRow = ({item, hidden, priceIndex}) => {
     const router = useRouter()
 
     useEffect(() => {
-        ReactTooltip.rebuild();
-    });
+        // ReactTooltip.rebuild();
+        
+        let body = document.querySelector('body')
+
+        if (isShowed) {
+            body.style.overflow = 'hidden'
+        } else {
+            body.style.overflow = 'unset'
+        }
+
+
+    }, [isShowed]);
 
     let default_summ = cart.reduce((prev, now) => {
 
@@ -263,7 +273,7 @@ const TableRow = ({item, hidden, priceIndex}) => {
   return (
     <div style={hidden?.includes(item?.id) ? {display: 'none'}: {}} className={selected ? styles.table_row : styles.table_row__active}>
         
-        <div className={styles.image} onClick={() => {setIsShowed(true)}}>
+        <div className={styles.image} onClick={() => {item?.images?.rows?.length > 0 && setIsShowed(true)}}>
             {/* {console.log(item?.images?.rows?.[0]?.tiny?.href)} */}
             <img src={item?.images?.rows?.[0]?.tiny?.href}></img> 
         </div>

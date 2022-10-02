@@ -24,7 +24,8 @@ function MyApp({ Component, pageProps }) {
     <>
     <Head>
       <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
+      <title>PLUG OPT - Оптовый прайс</title>
     </Head>
     <CategoryContext.Provider value={[categoryContext, setCategoryContext]}>
       <ProductContext.Provider value={[productContext, setProductContext]}>
