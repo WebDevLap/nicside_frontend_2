@@ -6,11 +6,15 @@ import { CategoryContext } from '../../../contexts/CategoryContext';
 import { ProductContext } from '../../../contexts/ProductsContext';
 
 const customStyles = {
+    overlay: {
+      overflow: 'hidden'
+    },
     content: {
       top: '50%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
+      minWidth: '320px',
       width: '40%',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
@@ -62,6 +66,7 @@ const Sidebar = () => {
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Example Modal"
+                bodyOpenClassName="preventScroll"
             >
                 <h2  style={{ marginBottom: 20}}>Доставка и оплата</h2>
                 <form>
@@ -75,7 +80,7 @@ const Sidebar = () => {
             </Modal>
             <a onClick={openModal}>Доставка и оплата</a>
             <div className={styles.contacts}>
-                  <Icon icon="logos:telegram" /> <a href="https://t.me/tar1karm">Чат Telegram</a>
+                  <Icon icon="logos:telegram" /> <a href="https://t.me/plug_opt">Канал Telegram</a>
             </div>
         </div>
     </div>

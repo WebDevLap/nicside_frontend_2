@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
+import ReactModal from 'react-modal'
 import { CartContext } from '../../../contexts/CartContext'
 import { CategoryContext } from '../../../contexts/CategoryContext'
 import { ProductContext } from '../../../contexts/ProductsContext'
@@ -9,9 +10,38 @@ import styles from './Header.module.css'
 
 const Header = () => {
 
+  
+const customStyles = {
+  overlay: {
+    overflow: 'hidden'
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    minWidth: '320px',
+    width: '40%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
   const [cart, setCart] = useContext(CartContext)
   const [products, setProducts] = useContext(ProductContext)
   const [search, setSearch] = useState('')
+
+  
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+
+  function openModal() {
+      setIsOpen(true);
+    }
+
+    function closeModal() {
+      setIsOpen(false);
+    }
 
 
   const [category, setCategory] = useContext(CategoryContext)
@@ -146,9 +176,27 @@ const Header = () => {
   return (
     <div className={styles.header}>
         <div className={styles.subheader}>
-            <a >Доставка и оплата</a>
+          
+            <ReactModal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                bodyOpenClassName="preventScroll"
+            >
+                <h2  style={{ marginBottom: 20}}>Доставка и оплата</h2>
+                <form>
+                <p>Минимальная сумма заказа - 100р</p>
+                <p>Заказы отправляем как с наложенным платежом, так и по предоплате транспортными компаниями Autolight, Европочта, Белпочта</p>
+                <b>По предоплате доставка осуществляется бесплатно</b>
+                
+                </form>
+                
+                <button style={{padding: '6px 10px', marginTop: 20}} className='primary__button' onClick={closeModal}>Закрыть</button>
+            </ReactModal>
+            <a onClick={openModal}>Доставка и оплата</a>
             <div className={styles.contacts}>
-                  <Icon icon="logos:telegram" /> <a href="https://t.me/tar1karm">Чат Telegram</a>
+                  <Icon icon="logos:telegram" /> <a href="https://t.me/plug_opt">Канал Telegram</a>
             </div>
         </div>
         {router.pathname != '/order' && (
