@@ -15,7 +15,8 @@ function MyApp({ Component, pageProps }) {
   });
   const [categoryContext, setCategoryContext] = useState({
     category: '',
-    search: ''
+    search: '',
+    offset: 0
   });
 
 

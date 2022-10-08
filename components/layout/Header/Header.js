@@ -51,18 +51,21 @@ const customStyles = {
     
     setProducts({
       products: [],
+      size: 0,
       isLoading: true,
       categories: products?.categories
     })
 
 
-    let newProducts = await fetch(`/api/assortment?${category?.search && 'search=' + category?.search + '&'}${category?.category && 'category=' + category?.category}`)
+    let newProducts = await fetch(`/api/assortment?offset=${category?.offset }&${category?.search && 'search=' + category?.search + '&'}${category?.category && 'category=' + category?.category}`)
 
     let categories = await fetch(`/api/categories`)
 
 
     newProducts = await newProducts.json()
     categories = await categories.json()
+
+    let size = newProducts?.meta?.size
 
     newProducts = newProducts?.rows?.map(item => item)
     categories = categories?.rows?.map(item => item)
@@ -75,6 +78,7 @@ const customStyles = {
 
     setProducts({
       products: newProducts,
+      size,
       isLoading: false,
       categories
     })
