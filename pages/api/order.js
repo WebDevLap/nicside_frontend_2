@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         let order = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/customerorder`, {
             method: 'POST',
             headers: {
-              'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb',
+              'Authorization': '423583fb7dcb990fb44b9dfe79caf1bea689f321',
               'Content-Type': 'application/json'
             },
             body: body
