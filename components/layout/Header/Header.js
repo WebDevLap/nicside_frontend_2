@@ -69,6 +69,11 @@ const customStyles = {
 
     newProducts = newProducts?.rows?.map(item => item)
     categories = categories?.rows?.map(item => item)
+
+    
+    newProducts = newProducts?.sort(function (a, b) {
+      return (a?.product?.name)?.localeCompare(b?.product?.name);
+  })
     
     newProducts = newProducts?.sort(function (a, b) {
         return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
@@ -86,8 +91,19 @@ const customStyles = {
   }
   
   useEffect(() => {
+
+    setCategory((prev) => ({...prev, offset: 0}))
+
+
     fetchProducts()
-  }, [category])
+  }, [category.category, category.search])
+
+  
+  useEffect(() => {
+    fetchProducts()
+  }, [category.offset])
+
+  
 
   const router = useRouter()
 
