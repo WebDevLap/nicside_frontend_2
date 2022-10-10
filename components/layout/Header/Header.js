@@ -71,9 +71,9 @@ const customStyles = {
     categories = categories?.rows?.map(item => item)
 
     
-    newProducts = newProducts?.sort(function (a, b) {
-      return (a?.product?.name)?.localeCompare(b?.product?.name);
-  })
+  //   newProducts = newProducts?.sort(function (a, b) {
+  //     return (a?.product?.name)?.localeCompare(b?.product?.name);
+  // })
     
     newProducts = newProducts?.sort(function (a, b) {
         return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
