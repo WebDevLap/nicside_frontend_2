@@ -117,7 +117,8 @@ input:focus {
   z-index: 999 !important
 }
 .gallery__item > img {
-  height: 70vh;
+  height: 60vh;
+  /* padding: 0 80px; */
   
 }
 
@@ -125,4 +126,53 @@ input:focus {
   width: auto;
   font-size: 15px !important;
   z-index: 2 !important
+}
+
+.preventScroll {
+  overflow: hidden !important;
+}
+
+.pagi {
+  display: flex;  
+  margin: 40px 0;
+  align-items: center;
+}
+
+.none {
+  display: none;
+}
+
+.page {
+  user-select: none;
+  border-radius: 4px;
+  margin: 0 2px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ddd;
+}
+.page:hover {
+  background: #eee;
+}
+.active_page:hover {
+  background: #503E8D;
+}
+.active_page {
+  user-select: none;
+  display: block;
+  border: 2px solid #503E8D;
+  border-radius: 4px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #503E8D;
+  width: 30px;
+  height: 30px;
+}
+.disabled_page {
+
 }

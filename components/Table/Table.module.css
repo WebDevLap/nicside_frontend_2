@@ -260,13 +260,13 @@
     .image {
         margin-bottom: 10px;
         order: 1;
-        min-width: 3%;
-        width: 3% !important
+        min-width: 40px;
+        width: 5% !important
     }
 
     .title {
         order: 2;
-        min-width: 50% !important;
+        min-width: 40% !important;
         margin-bottom: 10px;
     }
     .amount {
@@ -288,8 +288,8 @@
     }
     .table__prices {
         margin-right: 0 !important;
-        min-width: calc( 37% - 40px)!important;
-        width: calc( 37% - 40px)!important;
+        min-width: calc( 35% - 100px)!important;
+        width: calc( 35% - 60px)!important;
         text-align: right !important;
         margin-bottom: 10px;
         order: 3;
@@ -302,7 +302,7 @@
 
 @media screen and (max-width: 570px) {
     .title {
-        width: 80% !important;
+        width: 70% !important;
     }
     .table__prices {
         width: 150px !important;

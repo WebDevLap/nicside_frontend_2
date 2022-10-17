@@ -154,11 +154,7 @@ const OrderScreen = () => {
     async function handleSubmit() {
       if (!(phone == '' || name == '' || comment == '' || !addressInput)) {
 
-        let settings = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/context/usersettings`, {
-          headers: {
-            'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
-          }
-        })
+        let settings = await fetch(`/api/settings`)
 
         settings = await settings.json()
 
@@ -205,12 +201,8 @@ const OrderScreen = () => {
         }
         // console.log(orderData)
 
-        let order = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/customerorder`, {
+        let order = await fetch(`/api/order`, {
           method: 'POST',
-          headers: {
-            'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb',
-            'Content-Type': 'application/json'
-          },
           body: JSON.stringify(orderData)
         })
 

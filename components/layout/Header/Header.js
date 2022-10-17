@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
+import ReactModal from 'react-modal'
 import { CartContext } from '../../../contexts/CartContext'
 import { CategoryContext } from '../../../contexts/CategoryContext'
 import { ProductContext } from '../../../contexts/ProductsContext'
@@ -9,50 +10,77 @@ import styles from './Header.module.css'
 
 const Header = () => {
 
+  
+const customStyles = {
+  overlay: {
+    overflow: 'hidden'
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    minWidth: '320px',
+    width: '40%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
   const [cart, setCart] = useContext(CartContext)
   const [products, setProducts] = useContext(ProductContext)
   const [search, setSearch] = useState('')
+
+  
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+
+  function openModal() {
+      setIsOpen(true);
+    }
+
+    function closeModal() {
+      setIsOpen(false);
+    }
 
 
   const [category, setCategory] = useContext(CategoryContext)
 
   const fetchProducts = async () => {
 
-    
-    setProducts({
-      products: [],
-      isLoading: true,
-      categories: products?.categories
-    })
+
+    console.log(products)
 
 
-    let newProducts = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/assortment?expand=product,product.images,images&limit=100&filter=${category?.search && 'search=' + category?.search + ';'}stockMode=positiveOnly;stockStore=https://online.moysklad.ru/api/remap/1.2/entity/store/8179a7a1-c29d-11eb-0a80-048e00039ac0;quantityMode=positiveOnly${category?.category && ';pathname=' + category?.category}`, {
-      headers: {
-        'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
-      }
-    })
+    let newProducts = await fetch(`/api/assortment?offset=${category?.offset }&${category?.search && 'search=' + category?.search + '&'}${category?.category && 'category=' + category?.category}`)
 
-    let categories = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/productfolder`, {
-      headers: {
-        'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
-      }
-    })
+    let categories = await fetch(`/api/categories`)
 
 
     newProducts = await newProducts.json()
     categories = await categories.json()
 
+    let size = newProducts?.meta?.size
+
     newProducts = newProducts?.rows?.map(item => item)
     categories = categories?.rows?.map(item => item)
+
     
     newProducts = newProducts?.sort(function (a, b) {
-        return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
-    })
+      if (a?.product?.pathName == b?.product?.pathName) {
+        return (a?.product?.name)?.localeCompare(b?.product?.name) ;
+      }
+  })
+    
+    // newProducts = newProducts?.sort(function (a, b) {
+    //     return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
+    // })
 
     newProducts = newProducts?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
 
     setProducts({
-      products: newProducts,
+      products: category?.offset == 0 ? newProducts : [...products?.products, ...newProducts],
+      size,
       isLoading: false,
       categories
     })
@@ -60,8 +88,31 @@ const Header = () => {
   }
   
   useEffect(() => {
+
+
+    
+    setProducts((prev) => ({
+      products: [],
+      size: 0,
+      isLoading: true,
+      categories: products?.categories
+    }))
+
+    setCategory((prev) => ({...prev, offset: 0}))
+
+
     fetchProducts()
-  }, [category])
+  }, [category.category, category.search])
+
+  
+  useEffect(() => {
+
+
+
+    fetchProducts()
+  }, [category.offset])
+
+  
 
   const router = useRouter()
 
@@ -133,28 +184,55 @@ const Header = () => {
   }
 
   function handleSelect(e) {
-    setCategory(prev => ({...prev, category: e.target.value}))
+
+    if (!products?.isLoading) {
+      setCategory(prev => ({...prev, category: e.target.value}))
+    }
   }
 
   
   function handleSearch(e) {
-    setSearch(e.target.value)
+
+      setSearch(e.target.value)
   }
 
   
   function handleFind(e) {
-    setCategory(prev => ({...prev, search}))
+    if (!products?.isLoading) {
+      setCategory(prev => ({...prev, search}))
+    }
   }
 
   function handleClean(e) {
+
+    if (!products?.isLoading) {
     setSearch('')
     setCategory(prev => ({...prev, search: ''}))
+    }
   }
 
   return (
     <div className={styles.header}>
         <div className={styles.subheader}>
-            <a >Доставка и оплата</a>
+          
+            <ReactModal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                bodyOpenClassName="preventScroll"
+            >
+                <h2  style={{ marginBottom: 20}}>Доставка и оплата</h2>
+                <form>
+                <p>Минимальная сумма заказа - 100р</p>
+                <p>Заказы отправляем как с наложенным платежом, так и по предоплате транспортными компаниями Autolight, Европочта, Белпочта</p>
+                <b>По предоплате доставка осуществляется бесплатно</b>
+                
+                </form>
+                
+                <button style={{padding: '6px 10px', marginTop: 20}} className='primary__button' onClick={closeModal}>Закрыть</button>
+            </ReactModal>
+            <a onClick={openModal}>Доставка и оплата</a>
             <div className={styles.contacts}>
                   <Icon icon="logos:telegram" /> <a href="https://t.me/plug_opt">Канал Telegram</a>
             </div>

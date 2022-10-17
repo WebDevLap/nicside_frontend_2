@@ -20,8 +20,18 @@ const TableRow = ({item, hidden, priceIndex}) => {
     const router = useRouter()
 
     useEffect(() => {
-        ReactTooltip.rebuild();
-    });
+        // ReactTooltip.rebuild();
+        
+        let body = document.querySelector('body')
+
+        if (isShowed) {
+            body.style.overflow = 'hidden'
+        } else {
+            body.style.overflow = 'unset'
+        }
+
+
+    }, [isShowed]);
 
     let default_summ = cart.reduce((prev, now) => {
 
@@ -75,26 +85,29 @@ const TableRow = ({item, hidden, priceIndex}) => {
 
             let img_url = ''
 
-            let res = await fetch(`${process.env.NEXT_PUBLIC_CORS_HOST}/${img?.meta?.downloadHref}`, {
-                headers: {
-                  'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
-                }
-            })
+            let res = await fetch(`/api/images?url=${img?.meta?.downloadHref}`)
 
-            if (Object.fromEntries(res.headers)?.['x-final-url']) {
-                // console.log(Object.fromEntries(res.headers))
-                img_url = Object.fromEntries(res.headers)?.['x-final-url']
+            let imae = await res.blob()
 
-                // let resImg = await fetch(`http://localhost:8080/${img_url}`, {
-                //     headers: {
-                //         'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
-                //     }
-                // })
+            console.log(imae)
 
-                // console.log(resImg)
+            img_url = URL.createObjectURL(imae)
+            
+
+            // if (Object.fromEntries(res.headers)?.['x-final-url']) {
+            //     // console.log(Object.fromEntries(res.headers))
+            //     img_url = Object.fromEntries(res.headers)?.['x-final-url']
+
+            //     // let resImg = await fetch(`http://localhost:8080/${img_url}`, {
+            //     //     headers: {
+            //     //         'Authorization': 'f57f5925ec35cc1d94f1aff9bb4c6cf25c261deb'
+            //     //     }
+            //     // })
+
+            //     // console.log(resImg)
 
 
-            }
+            // }
 
             
             
@@ -260,7 +273,7 @@ const TableRow = ({item, hidden, priceIndex}) => {
   return (
     <div style={hidden?.includes(item?.id) ? {display: 'none'}: {}} className={selected ? styles.table_row : styles.table_row__active}>
         
-        <div className={styles.image} onClick={() => {setIsShowed(true)}}>
+        <div className={styles.image} onClick={() => {item?.images?.rows?.length > 0 && setIsShowed(true)}}>
             {/* {console.log(item?.images?.rows?.[0]?.tiny?.href)} */}
             <img src={item?.images?.rows?.[0]?.tiny?.href}></img> 
         </div>
