@@ -71,8 +71,13 @@ const customStyles = {
     categories = categories?.rows?.map(item => item)
 
     
+    newProducts = newProducts?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
+
+
+    
     newProducts = category?.offset == 0 ? newProducts : [...products?.products, ...newProducts]
 
+    
     
     newProducts = newProducts?.sort(function (a, b) {
       if (a?.product?.pathName == b?.product?.pathName) {
@@ -83,8 +88,6 @@ const customStyles = {
     // newProducts = newProducts?.sort(function (a, b) {
     //     return (a?.product?.pathName)?.localeCompare(b?.product?.pathName);
     // })
-
-    newProducts = newProducts?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
 
 
 
