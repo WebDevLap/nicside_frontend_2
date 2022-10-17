@@ -48,13 +48,8 @@ const customStyles = {
 
   const fetchProducts = async () => {
 
-    
-    setProducts({
-      products: [],
-      size: 0,
-      isLoading: true,
-      categories: products?.categories
-    })
+
+    console.log(products)
 
 
     let newProducts = await fetch(`/api/assortment?offset=${category?.offset }&${category?.search && 'search=' + category?.search + '&'}${category?.category && 'category=' + category?.category}`)
@@ -84,7 +79,7 @@ const customStyles = {
     newProducts = newProducts?.map(item => ({...item, salePrices: [...item?.salePrices?.map(price => ({...price, value: price?.value / 100})) ]}))
 
     setProducts({
-      products: newProducts,
+      products: category?.offset == 0 ? newProducts : [...products?.products, ...newProducts],
       size,
       isLoading: false,
       categories
@@ -94,6 +89,15 @@ const customStyles = {
   
   useEffect(() => {
 
+
+    
+    setProducts((prev) => ({
+      products: [],
+      size: 0,
+      isLoading: true,
+      categories: products?.categories
+    }))
+
     setCategory((prev) => ({...prev, offset: 0}))
 
 
@@ -102,6 +106,9 @@ const customStyles = {
 
   
   useEffect(() => {
+
+
+
     fetchProducts()
   }, [category.offset])
 
@@ -177,22 +184,31 @@ const customStyles = {
   }
 
   function handleSelect(e) {
-    setCategory(prev => ({...prev, category: e.target.value}))
+
+    if (!products?.isLoading) {
+      setCategory(prev => ({...prev, category: e.target.value}))
+    }
   }
 
   
   function handleSearch(e) {
-    setSearch(e.target.value)
+
+      setSearch(e.target.value)
   }
 
   
   function handleFind(e) {
-    setCategory(prev => ({...prev, search}))
+    if (!products?.isLoading) {
+      setCategory(prev => ({...prev, search}))
+    }
   }
 
   function handleClean(e) {
+
+    if (!products?.isLoading) {
     setSearch('')
     setCategory(prev => ({...prev, search: ''}))
+    }
   }
 
   return (

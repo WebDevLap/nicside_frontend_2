@@ -41,7 +41,9 @@ const Sidebar = () => {
 
 
     function handleCategory(value) {
-      setCategory(prev => ({...prev, category: value}))
+      if (!products?.isLoading) {
+        setCategory(prev => ({...prev, category: value}))
+      }
     }
 
 
