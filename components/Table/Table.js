@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import ReactLoader from 'react-loader'
 import ReactPaginate from 'react-paginate'
 import { CategoryContext } from '../../contexts/CategoryContext'
 import { ProductContext } from '../../contexts/ProductsContext'

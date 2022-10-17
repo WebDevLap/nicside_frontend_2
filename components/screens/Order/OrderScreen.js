@@ -6,7 +6,6 @@ import TableContainer from '../../Table/TableContainer'
 import styles from './OrderScreen.module.css'
 import formatPrice from '../../../utils/formatPrice'
 import { AddressSuggestions } from 'react-dadata';
-import ReactLoader from 'react-loader'
 import ReactInputMask from 'react-input-mask'
 import ReCAPTCHA from 'react-google-recaptcha'
 // import 'react-dadata/dist/react-dadata.css';
@@ -282,9 +281,7 @@ const OrderScreen = () => {
         </div>
         <div style={{display: 'flex',flexDirection: 'column', alignItems: 'flex-end', marginTop: 20}}>
           {isVerified ? (
-            <ReactLoader loaded={!isLoading}>
             <button onClick={handleSubmit} disabled={phone.includes('_') || name == '' || comment == '' || !addressInput} style={{padding: 10, marginBottom: 20, marginTop: 20}} className='primary__button'>Подтвердить заказ</button>
-            </ReactLoader>
           ): (
             <ReCAPTCHA
                 sitekey={process.env.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY}
