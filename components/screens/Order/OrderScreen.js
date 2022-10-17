@@ -15,7 +15,7 @@ const OrderScreen = () => {
     const [cart, setCart] = useContext(CartContext)
     
     const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
+    const [phone, setPhone] = useState('_');
     const [address, setAddress] = useState();
     const [addressInput, setAddressInput] = useState('');
     const [comment, setComment] = useState('');

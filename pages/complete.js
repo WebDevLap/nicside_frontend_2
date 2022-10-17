@@ -3,14 +3,21 @@ import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 import OrderScreen from "../components/screens/Order/OrderScreen";
 import { CartContext } from "../contexts/CartContext";
+import { CategoryContext } from "../contexts/CategoryContext";
 
 const Order = () => {
 
     
     const [cart, setCart] = useContext(CartContext)
+    const [category, setCategory] = useContext(CategoryContext)
 
     useEffect(() => {
         setCart([])
+        setCategory({
+          category: '',
+          search: '',
+          offset: 0
+        })
     }, [])
 
   return (

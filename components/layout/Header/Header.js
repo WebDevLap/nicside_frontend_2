@@ -49,6 +49,11 @@ const customStyles = {
   const fetchProducts = async () => {
 
 
+    setProducts(prev => ({
+      ...prev,
+      isLoading: true,
+    }))
+
     console.log(products)
 
 
@@ -86,31 +91,21 @@ const customStyles = {
     })
 
   }
+
+  
+
   
   useEffect(() => {
 
+    console.log(products?.isLoading)
+  
+  
+      fetchProducts()
 
     
-    setProducts((prev) => ({
-      products: [],
-      size: 0,
-      isLoading: true,
-      categories: products?.categories
-    }))
-
-    setCategory((prev) => ({...prev, offset: 0}))
-
-
-    fetchProducts()
-  }, [category.category, category.search])
+  }, [category.category, category.search, category.offset])
 
   
-  useEffect(() => {
-
-
-
-    fetchProducts()
-  }, [category.offset])
 
   
 
@@ -186,7 +181,16 @@ const customStyles = {
   function handleSelect(e) {
 
     if (!products?.isLoading) {
-      setCategory(prev => ({...prev, category: e.target.value}))
+      
+
+      setProducts((prev) => ({
+        products: [],
+        size: 0,
+        isLoading: true,
+        categories: products?.categories
+      }))
+
+      setCategory(prev => ({...prev, category: e.target.value, offset: 0}))
     }
   }
 
@@ -199,15 +203,33 @@ const customStyles = {
   
   function handleFind(e) {
     if (!products?.isLoading) {
-      setCategory(prev => ({...prev, search}))
+
+      
+      setProducts((prev) => ({
+        products: [],
+        size: 0,
+        isLoading: true,
+        categories: products?.categories
+      }))
+      
+
+      setCategory(prev => ({...prev, search, offset: 0}))
     }
   }
 
   function handleClean(e) {
 
     if (!products?.isLoading) {
+      
+      setProducts((prev) => ({
+        products: [],
+        size: 0,
+        isLoading: true,
+        categories: products?.categories
+      }))
+      
     setSearch('')
-    setCategory(prev => ({...prev, search: ''}))
+    setCategory(prev => ({...prev, search: '', offset: 0}))
     }
   }
 
