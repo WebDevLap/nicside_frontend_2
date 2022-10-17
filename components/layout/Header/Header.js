@@ -156,7 +156,7 @@ const Header = () => {
         <div className={styles.subheader}>
             <a >Доставка и оплата</a>
             <div className={styles.contacts}>
-                  <Icon icon="logos:telegram" /> <a href="https://t.me/tar1karm">Чат Telegram</a>
+                  <Icon icon="logos:telegram" /> <a href="https://t.me/plug_opt">Канал Telegram</a>
             </div>
         </div>
         {router.pathname != '/order' && (
