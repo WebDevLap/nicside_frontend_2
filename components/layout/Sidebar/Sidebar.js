@@ -62,9 +62,9 @@ const Sidebar = () => {
         </div> 
         <h2>Категории</h2>
         <ul>
-            <a onClick={() => {handleCategory('')}}><li className={category?.category == '' && styles.active__link}>Все</li></a>
+            <a onClick={() => {handleCategory('')}}><li className={category?.category == '' ? styles.active__link : ''}>Все</li></a>
             {products?.categories?.map(cat => (
-              <a key={cat?.id} onClick={() => {handleCategory(cat?.name)}}><li className={category?.category == cat?.name && styles.active__link}>{cat?.name}</li></a>
+              <a key={cat?.id} onClick={() => {handleCategory(cat?.name)}}><li className={category?.category == cat?.name ? styles.active__link : ''}>{cat?.name}</li></a>
             ))}
             {/* <a onClick={() => {handleCategory('Жидкость')}}><li className={category?.category == 'Жидкость' && styles.active__link}>Жидкость</li></a>
             <a onClick={() => {handleCategory('Расходники')}}><li className={category?.category == 'Расходники' && styles.active__link}>Расходники</li></a>
