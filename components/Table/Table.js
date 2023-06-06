@@ -33,7 +33,7 @@ const Table = ({data}) => {
     console.log(event)
     // console.log(event.selected,  itemsPerPage)
     const newOffset = event * itemsPerPage;
-    console.log(!products?.isLoading)
+    console.log(products?.isLoading)
     if(!products?.isLoading) {
 
 
@@ -41,7 +41,7 @@ const Table = ({data}) => {
     
       setProducts((prev) => ({
         ...prev,
-        size: 0,
+        size: products?.products?.length,
         isLoading: true,
         categories: products?.categories
       }))
