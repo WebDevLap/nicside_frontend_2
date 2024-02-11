@@ -4,12 +4,10 @@ export default async function handler(req, res) {
         query: {category, search},
         method,
       } = req
-
     if (method === 'GET') {
-        console.log(search)
         let categories = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/entity/productfolder`, {
             headers: {
-              'Authorization': '423583fb7dcb990fb44b9dfe79caf1bea689f321'
+              'Authorization': process.env.NEXT_PUBLIC_DADATA_API_KEY
             }
           })
           categories = await categories.json()

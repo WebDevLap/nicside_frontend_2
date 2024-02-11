@@ -11,7 +11,6 @@ const Table = ({data}) => {
   const [products, setProducts] = useContext(ProductContext)
   const [category, setCategory] = useContext(CategoryContext)
 
-  
   const itemsPerPage = 100
   const pageCount = Math.floor(products?.size / 100) + 1
 

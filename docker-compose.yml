@@ -2,21 +2,21 @@ version: '3'
 services:
   nextjs:
     build: ./
-  nginx:
-    restart: unless-stopped
-    image: staticfloat/nginx-certbot
+    restart: always
     ports:
-        - 80:80/tcp
-        - 443:443/tcp
-    environment:
-        CERTBOT_EMAIL: anodaday@yandex.ru
+      - 3000:3000
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
     volumes:
-      - ./conf.d:/etc/nginx/user.conf.d:ro
-      - letsencrypt:/etc/letsencrypt
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
   node:
     image: testcab/cors-anywhere
     restart: always
     ports:
       - 8080:8080
-volumes:
-  letsencrypt:

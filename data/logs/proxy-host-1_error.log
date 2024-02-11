@@ -1,0 +1,1 @@
+2024/02/09 03:50:43 [warn] 121408#121408: *1153140 using uninitialized "server" variable while logging request, client: 167.248.133.190, server: plugopt.by, request: "GET / HTTP/1.1", host: "plugopt.by:443"
